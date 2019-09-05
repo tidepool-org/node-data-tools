@@ -25,6 +25,10 @@ export default class TidepoolDataTools {
     return this.cache.fieldHeader[type][field];
   }
 
+  static fieldHidden(type, field) {
+    return this.cache.fieldHidden[type][field];
+  }
+
   static fieldWidth(type, field) {
     return this.cache.fieldWidth[type][field];
   }
@@ -160,7 +164,8 @@ export default class TidepoolDataTools {
       function write(data) {
         if (data.type === 'pumpSettings') {
           this.pause();
-          const commonFields = _.omit(data, ['basalSchedules', 'bgTarget', 'carbRatio', 'insulinSensitivity', 'units']);
+          const commonFields = _.omit(data, ['basalSchedules', 'bgTarget', 'bgTargets',
+            'carbRatio', 'carbRatios', 'insulinSensitivity', 'insulinSensitivities', 'units']);
           /* eslint-disable no-restricted-syntax */
           for (const scheduleName of _.keys(data.basalSchedules)) {
             for (const basalSchedule of data.basalSchedules[scheduleName]) {
@@ -169,20 +174,56 @@ export default class TidepoolDataTools {
               this.emit('data', emitData);
             }
           }
-          for (const bgTarget of data.bgTarget) {
-            const emitData = _.assign({ bgTarget, units: data.units }, commonFields);
-            emitData.type = 'pumpSettings.bgTarget';
-            this.emit('data', emitData);
+          if (data.bgTarget) {
+            for (const bgTarget of data.bgTarget) {
+              const emitData = _.assign({ bgTarget, units: data.units }, commonFields);
+              emitData.type = 'pumpSettings.bgTarget';
+              this.emit('data', emitData);
+            }
           }
-          for (const carbRatio of data.carbRatio) {
-            const emitData = _.assign({ carbRatio, units: data.units }, commonFields);
-            emitData.type = 'pumpSettings.carbRatio';
-            this.emit('data', emitData);
+          if (data.bgTargets) {
+            for (const scheduleName of _.keys(data.bgTargets)) {
+              for (const bgTarget of data.bgTargets[scheduleName]) {
+                const emitData = _.assign({ bgTarget, scheduleName, units: data.units },
+                  commonFields);
+                emitData.type = 'pumpSettings.bgTargets';
+                this.emit('data', emitData);
+              }
+            }
           }
-          for (const insulinSensitivity of data.insulinSensitivity) {
-            const emitData = _.assign({ insulinSensitivity, units: data.units }, commonFields);
-            emitData.type = 'pumpSettings.insulinSensitivity';
-            this.emit('data', emitData);
+          if (data.carbRatio) {
+            for (const carbRatio of data.carbRatio) {
+              const emitData = _.assign({ carbRatio, units: data.units }, commonFields);
+              emitData.type = 'pumpSettings.carbRatio';
+              this.emit('data', emitData);
+            }
+          }
+          if (data.carbRatios) {
+            for (const scheduleName of _.keys(data.carbRatios)) {
+              for (const carbRatio of data.carbRatios[scheduleName]) {
+                const emitData = _.assign({ carbRatio, scheduleName, units: data.units },
+                  commonFields);
+                emitData.type = 'pumpSettings.carbRatios';
+                this.emit('data', emitData);
+              }
+            }
+          }
+          if (data.insulinSensitivity) {
+            for (const insulinSensitivity of data.insulinSensitivity) {
+              const emitData = _.assign({ insulinSensitivity, units: data.units }, commonFields);
+              emitData.type = 'pumpSettings.insulinSensitivity';
+              this.emit('data', emitData);
+            }
+          }
+          if (data.insulinSensitivities) {
+            for (const scheduleName of _.keys(data.insulinSensitivities)) {
+              for (const insulinSensitivity of data.insulinSensitivities[scheduleName]) {
+                const emitData = _.assign({ insulinSensitivity, scheduleName, units: data.units },
+                  commonFields);
+                emitData.type = 'pumpSettings.insulinSensitivities';
+                this.emit('data', emitData);
+              }
+            }
           }
           /* eslint-enable no-restricted-syntax */
           this.resume();
@@ -227,7 +268,7 @@ export default class TidepoolDataTools {
     return JSONStream.stringify('[', ',', ']');
   }
 
-  static xlsxStreamWriter(outStream) {
+  static xlsxStreamWriter(outStream, streamConfig = { bgUnits: 'mmol/L' }) {
     const options = {
       stream: outStream,
       useStyles: true,
@@ -271,8 +312,9 @@ export default class TidepoolDataTools {
             sheet.columns = Object.keys(config[data.type].fields).map((field) => ({
               header: this.fieldHeader(data.type, field),
               key: field,
+              hidden: this.fieldHidden(data.type, field),
               width: this.fieldWidth(data.type, field),
-              style: { numFmt: this.cellFormat(data.type, field, data) },
+              style: { numFmt: this.cellFormat(data.type, field, streamConfig) },
             }));
             sheet.getRow(1).font = {
               bold: true,
@@ -322,6 +364,9 @@ TidepoolDataTools.cache = {
       (item, key) => item.header || _.chain(key).replace(/([A-Z])/g, ' $1').replace('.', ' ').startCase()
         .value()),
   ),
+  fieldHidden: _.mapValues(
+    config, (type) => _.mapValues(type.fields, (item) => item.hidden || false),
+  ),
   fieldWidth: _.mapValues(
     config, (type) => _.mapValues(type.fields, (item) => item.width || 22),
   ),
@@ -362,11 +407,13 @@ function convert(command) {
     let counter = 0;
 
     // Data processing
+    const processorConfig = { bgUnits: command.units };
+
     events.EventEmitter.defaultMaxListeners = 3;
     const processingStream = readStream
       .pipe(TidepoolDataTools.jsonParser())
       .pipe(TidepoolDataTools.splitPumpSettingsData())
-      .pipe(TidepoolDataTools.tidepoolProcessor({ bgUnits: command.units }));
+      .pipe(TidepoolDataTools.tidepoolProcessor(processorConfig));
 
     events.EventEmitter.defaultMaxListeners += 1;
     processingStream
@@ -421,7 +468,7 @@ function convert(command) {
 
       events.EventEmitter.defaultMaxListeners += 1;
       processingStream
-        .pipe(TidepoolDataTools.xlsxStreamWriter(xlsxStream));
+        .pipe(TidepoolDataTools.xlsxStreamWriter(xlsxStream, processorConfig));
     }
 
     readStream.on('end', () => {

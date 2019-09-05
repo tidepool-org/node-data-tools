@@ -118,7 +118,8 @@ const wb = new Excel.Workbook();
           let cellValue = row.values[valueIdx];
           if (_.indexOf(['deviceTime', 'computerTime'], fields[valueIdx - 1]) >= 0) {
             cellValue = moment.utc(cellValue).format('YYYY-MM-DDTHH:mm:ss');
-          } else if (_.indexOf(['insulinSensitivity.start', 'carbRatio.start', 'bgTarget.start', 'basalSchedule.start'], fields[valueIdx - 1]) >= 0) {
+          } else if (_.indexOf(['insulinSensitivity.start', 'insulinSensitivities.start', 'carbRatio.start',
+            'carbRatios.start', 'bgTarget.start', 'bgTargets.start', 'basalSchedule.start'], fields[valueIdx - 1]) >= 0) {
             // Convert to UNIX time as an Int
             cellValue = parseInt(moment(cellValue).utc().format('x'), 10);
           } else if (fields[valueIdx - 1] === 'time') {
@@ -140,9 +141,10 @@ const wb = new Excel.Workbook();
           return object;
         }, {}), _.isUndefined));
         // Rebuild missing units field for split out pumpSettings
-        if (_.indexOf(['pumpSettings.bgTarget', 'pumpSettings.insulinSensitivity'], data.type) >= 0) {
+        if (_.indexOf(['pumpSettings.bgTarget', 'pumpSettings.bgTargets',
+          'pumpSettings.insulinSensitivity', 'pumpSettings.insulinSensitivities'], data.type) >= 0) {
           data.units.carb = 'grams';
-        } else if (_.indexOf(['pumpSettings.carbRatio'], data.type) >= 0) {
+        } else if (_.indexOf(['pumpSettings.carbRatio', 'pumpSettings.carbRatios'], data.type) >= 0) {
           data.units.bg = program.units;
         }
         outputData.push(data);
