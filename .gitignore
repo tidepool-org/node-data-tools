@@ -3,6 +3,6 @@
 # Node
 node_modules
 example-data
-test
+test/output
 .eslintcache
 yarn.lock

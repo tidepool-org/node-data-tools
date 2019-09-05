@@ -25,6 +25,10 @@ export default class TidepoolDataTools {
     return this.cache.fieldHeader[type][field];
   }
 
+  static fieldHidden(type, field) {
+    return this.cache.fieldHidden[type][field];
+  }
+
   static fieldWidth(type, field) {
     return this.cache.fieldWidth[type][field];
   }
@@ -53,16 +57,18 @@ export default class TidepoolDataTools {
         .pick(this.fieldsToStringify(data.type))
         .keys()
         .value(),
-      item => _.set(data, item, JSON.stringify(data[item])),
+      (item) => _.set(data, item, JSON.stringify(data[item])),
     );
   }
 
   static addLocalTime(data) {
-    const localTime = new Date(data.time);
-    localTime.setUTCMinutes(localTime.getUTCMinutes() + data.timezoneOffset);
-    _.assign(data, {
-      localTime,
-    });
+    if (data.time) {
+      const localTime = new Date(data.time);
+      localTime.setUTCMinutes(localTime.getUTCMinutes() + (data.timezoneOffset || 0));
+      _.assign(data, {
+        localTime,
+      });
+    }
   }
 
   static transformData(data, options = {}) {
@@ -158,7 +164,8 @@ export default class TidepoolDataTools {
       function write(data) {
         if (data.type === 'pumpSettings') {
           this.pause();
-          const commonFields = _.omit(data, ['basalSchedules', 'bgTarget', 'carbRatio', 'insulinSensitivity', 'units']);
+          const commonFields = _.omit(data, ['basalSchedules', 'bgTarget', 'bgTargets',
+            'carbRatio', 'carbRatios', 'insulinSensitivity', 'insulinSensitivities', 'units']);
           /* eslint-disable no-restricted-syntax */
           for (const scheduleName of _.keys(data.basalSchedules)) {
             for (const basalSchedule of data.basalSchedules[scheduleName]) {
@@ -167,20 +174,56 @@ export default class TidepoolDataTools {
               this.emit('data', emitData);
             }
           }
-          for (const bgTarget of data.bgTarget) {
-            const emitData = _.assign({ bgTarget, units: data.units }, commonFields);
-            emitData.type = 'pumpSettings.bgTarget';
-            this.emit('data', emitData);
+          if (data.bgTarget) {
+            for (const bgTarget of data.bgTarget) {
+              const emitData = _.assign({ bgTarget, units: data.units }, commonFields);
+              emitData.type = 'pumpSettings.bgTarget';
+              this.emit('data', emitData);
+            }
           }
-          for (const carbRatio of data.carbRatio) {
-            const emitData = _.assign({ carbRatio, units: data.units }, commonFields);
-            emitData.type = 'pumpSettings.carbRatio';
-            this.emit('data', emitData);
+          if (data.bgTargets) {
+            for (const scheduleName of _.keys(data.bgTargets)) {
+              for (const bgTarget of data.bgTargets[scheduleName]) {
+                const emitData = _.assign({ bgTarget, scheduleName, units: data.units },
+                  commonFields);
+                emitData.type = 'pumpSettings.bgTargets';
+                this.emit('data', emitData);
+              }
+            }
           }
-          for (const insulinSensitivity of data.insulinSensitivity) {
-            const emitData = _.assign({ insulinSensitivity, units: data.units }, commonFields);
-            emitData.type = 'pumpSettings.insulinSensitivity';
-            this.emit('data', emitData);
+          if (data.carbRatio) {
+            for (const carbRatio of data.carbRatio) {
+              const emitData = _.assign({ carbRatio, units: data.units }, commonFields);
+              emitData.type = 'pumpSettings.carbRatio';
+              this.emit('data', emitData);
+            }
+          }
+          if (data.carbRatios) {
+            for (const scheduleName of _.keys(data.carbRatios)) {
+              for (const carbRatio of data.carbRatios[scheduleName]) {
+                const emitData = _.assign({ carbRatio, scheduleName, units: data.units },
+                  commonFields);
+                emitData.type = 'pumpSettings.carbRatios';
+                this.emit('data', emitData);
+              }
+            }
+          }
+          if (data.insulinSensitivity) {
+            for (const insulinSensitivity of data.insulinSensitivity) {
+              const emitData = _.assign({ insulinSensitivity, units: data.units }, commonFields);
+              emitData.type = 'pumpSettings.insulinSensitivity';
+              this.emit('data', emitData);
+            }
+          }
+          if (data.insulinSensitivities) {
+            for (const scheduleName of _.keys(data.insulinSensitivities)) {
+              for (const insulinSensitivity of data.insulinSensitivities[scheduleName]) {
+                const emitData = _.assign({ insulinSensitivity, scheduleName, units: data.units },
+                  commonFields);
+                emitData.type = 'pumpSettings.insulinSensitivities';
+                this.emit('data', emitData);
+              }
+            }
           }
           /* eslint-enable no-restricted-syntax */
           this.resume();
@@ -220,7 +263,12 @@ export default class TidepoolDataTools {
     });
   }
 
-  static xlsxStreamWriter(outStream) {
+  static jsonStreamWriter() {
+    // Return a "compact" JSON Stream
+    return JSONStream.stringify('[', ',', ']');
+  }
+
+  static xlsxStreamWriter(outStream, streamConfig = { bgUnits: 'mmol/L' }) {
     const options = {
       stream: outStream,
       useStyles: true,
@@ -261,11 +309,12 @@ export default class TidepoolDataTools {
                 activeCell: 'A2',
               }],
             });
-            sheet.columns = Object.keys(config[data.type].fields).map(field => ({
+            sheet.columns = Object.keys(config[data.type].fields).map((field) => ({
               header: this.fieldHeader(data.type, field),
               key: field,
+              hidden: this.fieldHidden(data.type, field),
               width: this.fieldWidth(data.type, field),
-              style: { numFmt: this.cellFormat(data.type, field, data) },
+              style: { numFmt: this.cellFormat(data.type, field, streamConfig) },
             }));
             sheet.getRow(1).font = {
               bold: true,
@@ -302,27 +351,30 @@ export default class TidepoolDataTools {
 
 TidepoolDataTools.cache = {
   allFields: _.chain(config)
-    .flatMap(field => Object.keys(field.fields))
+    .flatMap((field) => Object.keys(field.fields))
     .uniq()
     .sort()
     .value(),
   fieldsToStringify: _.mapValues(
-    config, item => Object.keys(_.pickBy(item.fields, n => n.stringify)),
+    config, (item) => Object.keys(_.pickBy(item.fields, (n) => n.stringify)),
   ),
   typeDisplayName: _.mapValues(config, (item, key) => item.displayName || _.chain(key).replace(/([A-Z])/g, ' $1').startCase().value()),
   fieldHeader: _.mapValues(
-    config, type => _.mapValues(type.fields,
+    config, (type) => _.mapValues(type.fields,
       (item, key) => item.header || _.chain(key).replace(/([A-Z])/g, ' $1').replace('.', ' ').startCase()
         .value()),
   ),
+  fieldHidden: _.mapValues(
+    config, (type) => _.mapValues(type.fields, (item) => item.hidden || false),
+  ),
   fieldWidth: _.mapValues(
-    config, type => _.mapValues(type.fields, item => item.width || 22),
+    config, (type) => _.mapValues(type.fields, (item) => item.width || 22),
   ),
   cellFormat: _.mapValues(
-    config, type => _.mapValues(type.fields, item => item.cellFormat || undefined),
+    config, (type) => _.mapValues(type.fields, (item) => item.cellFormat || undefined),
   ),
   transformData:
-    _.mapValues(config, item => (item.transform ? _.template(item.transform) : undefined)),
+    _.mapValues(config, (item) => (item.transform ? _.template(item.transform) : undefined)),
 };
 
 function convert(command) {
@@ -355,17 +407,28 @@ function convert(command) {
     let counter = 0;
 
     // Data processing
+    const processorConfig = { bgUnits: command.units };
+
     events.EventEmitter.defaultMaxListeners = 3;
     const processingStream = readStream
       .pipe(TidepoolDataTools.jsonParser())
       .pipe(TidepoolDataTools.splitPumpSettingsData())
-      .pipe(TidepoolDataTools.tidepoolProcessor({ bgUnits: command.units }));
+      .pipe(TidepoolDataTools.tidepoolProcessor(processorConfig));
 
     events.EventEmitter.defaultMaxListeners += 1;
     processingStream
       .pipe(es.mapSync(() => {
         counter += 1;
       }));
+
+    // JSON
+    if (_.includes(command.outputFormat, 'json') || _.includes(command.outputFormat, 'all')) {
+      events.EventEmitter.defaultMaxListeners += 2;
+      const jsonStream = fs.createWriteStream(`${outFilename}.json`);
+      processingStream
+        .pipe(TidepoolDataTools.jsonStreamWriter())
+        .pipe(jsonStream);
+    }
 
     // Single CSV
     if (_.includes(command.outputFormat, 'csv') || _.includes(command.outputFormat, 'all')) {
@@ -374,7 +437,7 @@ function convert(command) {
       csvStream.write(CSV.stringify(TidepoolDataTools.allFields));
       processingStream
         .pipe(es.mapSync(
-          data => CSV.stringify(TidepoolDataTools.allFields.map(field => data[field] || '')),
+          (data) => CSV.stringify(TidepoolDataTools.allFields.map((field) => data[field] || '')),
         ))
         .pipe(csvStream);
     }
@@ -392,7 +455,7 @@ function convert(command) {
           // eslint-disable-next-line consistent-return
           .pipe(es.mapSync((data) => {
             if (data.type === key) {
-              return CSV.stringify(Object.keys(config[key].fields).map(field => data[field] || ''));
+              return CSV.stringify(Object.keys(config[key].fields).map((field) => data[field] || ''));
             }
           }))
           .pipe(csvStream2);
@@ -405,7 +468,7 @@ function convert(command) {
 
       events.EventEmitter.defaultMaxListeners += 1;
       processingStream
-        .pipe(TidepoolDataTools.xlsxStreamWriter(xlsxStream));
+        .pipe(TidepoolDataTools.xlsxStreamWriter(xlsxStream, processorConfig));
     }
 
     readStream.on('end', () => {
@@ -439,10 +502,10 @@ if (require.main === module) {
       }
       return value;
     }, 'mmol/L')
-    .option('--salt <salt>', 'salt used in the hashing algorithm', 'no salt specified')
+    .option('--salt <salt>', 'salt used in the hashing algorithm', '')
     .option('-o, --output-data-path <path>', 'the path where the data is exported',
       path.join(__dirname, 'example-data', 'export'))
-    .option('-f, --output-format <format>', 'the format of file to export to. Can be xlsx, csv, csvs or all. Can be specified multiple times', (val, list) => {
+    .option('-f, --output-format <format>', 'the format of file to export to. Can be xlsx, csv, csvs, json or all. Can be specified multiple times', (val, list) => {
       if (list[0] === 'all' && list.length === 1) {
         list.splice(0);
       }
