@@ -1,0 +1,24 @@
+sudo: false
+
+language: node_js
+
+node_js:
+  - 10.14.2
+  - node
+
+cache: yarn
+
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.9.4
+  - export PATH="$HOME/.yarn/bin:$PATH"
+
+install:
+  - yarn install --frozen-lockfile
+
+script:
+  - yarn run lint
+  - yarn test
+
+matrix:
+  allow_failures:
+    - node_js: node

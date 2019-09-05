@@ -53,16 +53,18 @@ export default class TidepoolDataTools {
         .pick(this.fieldsToStringify(data.type))
         .keys()
         .value(),
-      item => _.set(data, item, JSON.stringify(data[item])),
+      (item) => _.set(data, item, JSON.stringify(data[item])),
     );
   }
 
   static addLocalTime(data) {
-    const localTime = new Date(data.time);
-    localTime.setUTCMinutes(localTime.getUTCMinutes() + data.timezoneOffset);
-    _.assign(data, {
-      localTime,
-    });
+    if (data.time) {
+      const localTime = new Date(data.time);
+      localTime.setUTCMinutes(localTime.getUTCMinutes() + (data.timezoneOffset || 0));
+      _.assign(data, {
+        localTime,
+      });
+    }
   }
 
   static transformData(data, options = {}) {
@@ -220,6 +222,11 @@ export default class TidepoolDataTools {
     });
   }
 
+  static jsonStreamWriter() {
+    // Return a "compact" JSON Stream
+    return JSONStream.stringify('[', ',', ']');
+  }
+
   static xlsxStreamWriter(outStream) {
     const options = {
       stream: outStream,
@@ -261,7 +268,7 @@ export default class TidepoolDataTools {
                 activeCell: 'A2',
               }],
             });
-            sheet.columns = Object.keys(config[data.type].fields).map(field => ({
+            sheet.columns = Object.keys(config[data.type].fields).map((field) => ({
               header: this.fieldHeader(data.type, field),
               key: field,
               width: this.fieldWidth(data.type, field),
@@ -302,27 +309,27 @@ export default class TidepoolDataTools {
 
 TidepoolDataTools.cache = {
   allFields: _.chain(config)
-    .flatMap(field => Object.keys(field.fields))
+    .flatMap((field) => Object.keys(field.fields))
     .uniq()
     .sort()
     .value(),
   fieldsToStringify: _.mapValues(
-    config, item => Object.keys(_.pickBy(item.fields, n => n.stringify)),
+    config, (item) => Object.keys(_.pickBy(item.fields, (n) => n.stringify)),
   ),
   typeDisplayName: _.mapValues(config, (item, key) => item.displayName || _.chain(key).replace(/([A-Z])/g, ' $1').startCase().value()),
   fieldHeader: _.mapValues(
-    config, type => _.mapValues(type.fields,
+    config, (type) => _.mapValues(type.fields,
       (item, key) => item.header || _.chain(key).replace(/([A-Z])/g, ' $1').replace('.', ' ').startCase()
         .value()),
   ),
   fieldWidth: _.mapValues(
-    config, type => _.mapValues(type.fields, item => item.width || 22),
+    config, (type) => _.mapValues(type.fields, (item) => item.width || 22),
   ),
   cellFormat: _.mapValues(
-    config, type => _.mapValues(type.fields, item => item.cellFormat || undefined),
+    config, (type) => _.mapValues(type.fields, (item) => item.cellFormat || undefined),
   ),
   transformData:
-    _.mapValues(config, item => (item.transform ? _.template(item.transform) : undefined)),
+    _.mapValues(config, (item) => (item.transform ? _.template(item.transform) : undefined)),
 };
 
 function convert(command) {
@@ -367,6 +374,15 @@ function convert(command) {
         counter += 1;
       }));
 
+    // JSON
+    if (_.includes(command.outputFormat, 'json') || _.includes(command.outputFormat, 'all')) {
+      events.EventEmitter.defaultMaxListeners += 2;
+      const jsonStream = fs.createWriteStream(`${outFilename}.json`);
+      processingStream
+        .pipe(TidepoolDataTools.jsonStreamWriter())
+        .pipe(jsonStream);
+    }
+
     // Single CSV
     if (_.includes(command.outputFormat, 'csv') || _.includes(command.outputFormat, 'all')) {
       events.EventEmitter.defaultMaxListeners += 2;
@@ -374,7 +390,7 @@ function convert(command) {
       csvStream.write(CSV.stringify(TidepoolDataTools.allFields));
       processingStream
         .pipe(es.mapSync(
-          data => CSV.stringify(TidepoolDataTools.allFields.map(field => data[field] || '')),
+          (data) => CSV.stringify(TidepoolDataTools.allFields.map((field) => data[field] || '')),
         ))
         .pipe(csvStream);
     }
@@ -392,7 +408,7 @@ function convert(command) {
           // eslint-disable-next-line consistent-return
           .pipe(es.mapSync((data) => {
             if (data.type === key) {
-              return CSV.stringify(Object.keys(config[key].fields).map(field => data[field] || ''));
+              return CSV.stringify(Object.keys(config[key].fields).map((field) => data[field] || ''));
             }
           }))
           .pipe(csvStream2);
@@ -439,10 +455,10 @@ if (require.main === module) {
       }
       return value;
     }, 'mmol/L')
-    .option('--salt <salt>', 'salt used in the hashing algorithm', 'no salt specified')
+    .option('--salt <salt>', 'salt used in the hashing algorithm', '')
     .option('-o, --output-data-path <path>', 'the path where the data is exported',
       path.join(__dirname, 'example-data', 'export'))
-    .option('-f, --output-format <format>', 'the format of file to export to. Can be xlsx, csv, csvs or all. Can be specified multiple times', (val, list) => {
+    .option('-f, --output-format <format>', 'the format of file to export to. Can be xlsx, csv, csvs, json or all. Can be specified multiple times', (val, list) => {
       if (list[0] === 'all' && list.length === 1) {
         list.splice(0);
       }

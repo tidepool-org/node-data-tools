@@ -37,6 +37,7 @@ const excludedFields = [
   'client',
   'dataSetType',
   'guid',
+  'revision',
 ];
 
 async function readInputFile(inputFile, inputData) {
@@ -50,7 +51,7 @@ async function readInputFile(inputFile, inputData) {
     readStream
       .pipe(TidepoolDataTools.jsonParser())
       .pipe(TidepoolDataTools.splitPumpSettingsData())
-      .pipe(es.mapSync(data => inputData.push(data)))
+      .pipe(es.mapSync((data) => inputData.push(data)))
       .on('end', () => {
         resolve();
       });
@@ -60,17 +61,27 @@ async function readInputFile(inputFile, inputData) {
 const wb = new Excel.Workbook();
 
 (async () => {
-  const headingsToFields = _.mapValues(TidepoolDataTools.cache.fieldHeader, item => _.invert(item));
+  const headingsToFields = _.mapValues(TidepoolDataTools.cache.fieldHeader,
+    (item) => _.invert(item));
   const sheetNameToType = _.invert(TidepoolDataTools.cache.typeDisplayName);
 
   const inputData = [];
   const outputData = [];
   let sortedOutputData = [];
 
+  // Read input data
   try {
     await readInputFile(program.inputData, inputData);
   } catch (err) {
     console.log(`Error loading input data: ${err}`);
+    process.exit(1);
+  }
+
+  // Read output data
+  try {
+    await wb.xlsx.readFile(program.outputData);
+  } catch (err) {
+    console.log(`Error loading output data: ${err}`);
     process.exit(1);
   }
 
@@ -80,7 +91,7 @@ const wb = new Excel.Workbook();
 
   const sortedInputData = _.sortBy(
     inputData,
-    obj => obj.id + obj.type,
+    (obj) => obj.id + obj.type,
   );
   // eslint-disable-next-line no-restricted-syntax
   for (const data of sortedInputData) {
@@ -91,7 +102,6 @@ const wb = new Excel.Workbook();
     TidepoolDataTools.addLocalTime(data);
   }
 
-  await wb.xlsx.readFile(program.outputData);
   wb.eachSheet((worksheet) => {
     // Ignore the "EXPORT ERROR" sheet
     if (worksheet.name === 'EXPORT ERROR') {
@@ -99,7 +109,7 @@ const wb = new Excel.Workbook();
     }
     const headings = _.drop(worksheet.getRow(1).values);
     const type = sheetNameToType[worksheet.name] || worksheet.name;
-    const fields = _.map(headings, value => headingsToFields[type][value] || value);
+    const fields = _.map(headings, (value) => headingsToFields[type][value] || value);
     worksheet.eachRow((row, rowNumber) => {
       // Skip the header
       if (rowNumber > 1) {
@@ -139,7 +149,7 @@ const wb = new Excel.Workbook();
       }
     });
 
-    sortedOutputData = _.sortBy(outputData, obj => obj.id + obj.type);
+    sortedOutputData = _.sortBy(outputData, (obj) => obj.id + obj.type);
   });
 
   for (let i = 0; i < sortedInputData.length; i++) {
