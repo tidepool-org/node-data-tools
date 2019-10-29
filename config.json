@@ -317,6 +317,7 @@
       "bgTarget.target": { "header": "BG Target", "cellFormat": "<%= bgUnits === 'mmol/L' ? '0.0': '0' %>" },
       "bgTarget.high": { "header": "BG Target High", "cellFormat": "<%= bgUnits === 'mmol/L' ? '0.0': '0' %>" },
       "bgTarget.low": { "header": "BG Target Low", "cellFormat": "<%= bgUnits === 'mmol/L' ? '0.0': '0' %>" },
+      "bgTarget.range": { "header": "BG Target Range Setting", "cellFormat": "<%= bgUnits === 'mmol/L' ? '0.0': '0' %>" },
       "timezoneOffset": { "width": 14 },
       "conversionOffset": { "width": 14 },
       "clockDriftOffset": { "width": 14 },
@@ -373,12 +374,17 @@
     }
   },
   "bolus": {
+    "transform": "<% return _.mapValues(data, (v, k) => ['duration','expectedDuration', 'extended', 'expectedExtended'].indexOf(k) === 0 ? v/1000/60 : v) %>",
     "fields": {
       "time": { "header": "Zulu Time", "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "localTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "deviceTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "type": { "header": "Tidepool Data Type", "width": 15 },
       "subType": {},
+      "duration": {},
+      "expectedDuration": {},
+      "extended": {},
+      "expectedExtended": {},
       "normal": {},
       "expectedNormal": {},
       "timezoneOffset": { "width": 14 },

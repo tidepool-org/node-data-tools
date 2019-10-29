@@ -38,6 +38,12 @@ const excludedFields = [
   'dataSetType',
   'guid',
   'revision',
+  '_active',
+  '_groupId',
+  '_id',
+  '_schemaVersion',
+  '_userId',
+  'createdTime',
 ];
 
 async function readInputFile(inputFile, inputData) {
