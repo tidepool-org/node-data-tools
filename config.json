@@ -83,7 +83,9 @@
       "id": {},
       "uploadId": {},
       "payload": { "stringify": true },
-      "annotations": { "stringify": true }
+      "annotations": { "stringify": true },
+      "basal": { "stringify": true, "hidden": true },
+      "display": { "stringify": true, "hidden": true }
     }
   },
   "pumpSettings.basalSchedules": {
@@ -109,7 +111,9 @@
       "model": { "hidden": true },
       "serialNumber": { "hidden": true },
       "payload": { "stringify": true },
-      "annotations": { "stringify": true }
+      "annotations": { "stringify": true },
+      "basal": { "stringify": true, "hidden": true },
+      "display": { "stringify": true, "hidden": true }
     }
   },
   "pumpSettings.bgTarget": {
@@ -138,7 +142,9 @@
       "model": { "hidden": true },
       "serialNumber": { "hidden": true },
       "payload": { "stringify": true },
-      "annotations": { "stringify": true }
+      "annotations": { "stringify": true },
+      "basal": { "stringify": true, "hidden": true },
+      "display": { "stringify": true, "hidden": true }
     }
   },
   "pumpSettings.bgTargets": {
@@ -168,7 +174,9 @@
       "model": { "hidden": true },
       "serialNumber": { "hidden": true },
       "payload": { "stringify": true },
-      "annotations": { "stringify": true }
+      "annotations": { "stringify": true },
+      "basal": { "stringify": true, "hidden": true },
+      "display": { "stringify": true, "hidden": true }
     }
   },
   "pumpSettings.carbRatio": {
@@ -194,7 +202,9 @@
       "model": { "hidden": true },
       "serialNumber": { "hidden": true },
       "payload": { "stringify": true },
-      "annotations": { "stringify": true }
+      "annotations": { "stringify": true },
+      "basal": { "stringify": true, "hidden": true },
+      "display": { "stringify": true, "hidden": true }
     }
   },
   "pumpSettings.carbRatios": {
@@ -221,7 +231,9 @@
       "model": { "hidden": true },
       "serialNumber": { "hidden": true },
       "payload": { "stringify": true },
-      "annotations": { "stringify": true }
+      "annotations": { "stringify": true },
+      "basal": { "stringify": true, "hidden": true },
+      "display": { "stringify": true, "hidden": true }
     }
   },
   "pumpSettings.insulinSensitivity": {
@@ -247,7 +259,9 @@
       "model": { "hidden": true },
       "serialNumber": { "hidden": true },
       "payload": { "stringify": true },
-      "annotations": { "stringify": true }
+      "annotations": { "stringify": true },
+      "basal": { "stringify": true, "hidden": true },
+      "display": { "stringify": true, "hidden": true }
     }
   },
   "pumpSettings.insulinSensitivities": {
@@ -274,7 +288,9 @@
       "model": { "hidden": true },
       "serialNumber": { "hidden": true },
       "payload": { "stringify": true },
-      "annotations": { "stringify": true }
+      "annotations": { "stringify": true },
+      "basal": { "stringify": true, "hidden": true },
+      "display": { "stringify": true, "hidden": true }
     }
   },
   "smbg": {
