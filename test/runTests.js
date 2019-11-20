@@ -18,7 +18,7 @@ function testFixture(fixturePath, fixture, units) {
     .update(path.parse(fixture).name)
     .digest('hex');
 
-  process.stdout.write(`Testing fixture ${fixture} in ${units}... `);
+  process.stdout.write(`Testing fixture ${fixture} in ${units} (writing to ${outputFile}.xlsx)... `);
   const convert = spawnSync(`${process.argv[0]} -r esm ${__dirname}/../index.js convert -i ${fixturePath}/${fixture} -u '${units}' -f xlsx -o ${__dirname}/output`, { shell: true });
   const compare = spawnSync(`${process.argv[0]} -r esm ${__dirname}/exporter.test.js -i ${fixturePath}/${fixture} -u '${units}' -o ${__dirname}/output/${outputFile}.xlsx`, { shell: true });
   if (convert.status === 0 && compare.status === 0) {
