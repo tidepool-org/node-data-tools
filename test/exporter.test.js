@@ -106,7 +106,9 @@ const wb = new Excel.Workbook();
   for (const data of sortedInputData) {
     TidepoolDataTools.normalizeBgData(data, program.units);
     // Normalize `time` field (turn it into UTC)
-    data.time = moment(data.time).utc().toISOString();
+    if (data.time) {
+      data.time = moment(data.time).utc().toISOString();
+    }
     // Add the synthesized local time
     TidepoolDataTools.addLocalTime(data);
   }
