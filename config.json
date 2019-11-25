@@ -350,6 +350,7 @@
       "localTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "deviceTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "type": { "header": "Tidepool Data Type", "width": 15 },
+      "name": {},
       "nutrition": {
         "stringify": true
       },
@@ -364,6 +365,7 @@
     }
   },
   "physicalActivity": {
+    "transform": "<% return _.mapValues(data, (v, k) => ['duration'].indexOf(k) >= 0 ? moment.duration(v.value,v.units).as('days') : v) %>",
     "fields": {
       "time": { "header": "Zulu Time", "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "localTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
@@ -373,9 +375,7 @@
       "distance": {
         "stringify": true
       },
-      "duration": {
-        "stringify": true
-      },
+      "duration": { "cellFormat": "[h]:mm:ss", "width": 20 },
       "energy": {
         "stringify": true
       },

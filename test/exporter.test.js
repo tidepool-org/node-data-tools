@@ -43,7 +43,9 @@ const excludedFields = [
   '_id',
   '_schemaVersion',
   '_userId',
+  '_version',
   'createdTime',
+  'modifiedTime',
   'origin',
 ];
 
@@ -173,10 +175,20 @@ const wb = new Excel.Workbook();
 
   for (let i = 0; i < sortedInputData.length; i++) {
     if (sortedInputData[i].duration) {
-      sortedInputData[i].duration /= 60000;
+      if (typeof sortedInputData[i].duration !== 'object') {
+        // v/60000 !== v/1000/60, because, floats
+        sortedInputData[i].duration /= 1000;
+        sortedInputData[i].duration /= 60;
+      } else {
+        const v = sortedInputData[i].duration;
+        const duration = moment.duration(v.value, v.units).as('seconds');
+        sortedInputData[i].duration = moment.utc('1899-12-30').add(duration, 'seconds').toDate();
+      }
     }
     if (sortedInputData[i].expectedDuration) {
-      sortedInputData[i].expectedDuration /= 60000;
+      // v/60000 !== v/1000/60, because, floats
+      sortedInputData[i].expectedDuration /= 1000;
+      sortedInputData[i].expectedDuration /= 60;
     }
     const diff = diffString(_.omit(sortedInputData[i], excludedFields), sortedOutputData[i]);
     if (diff) {

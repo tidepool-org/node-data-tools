@@ -376,7 +376,7 @@ TidepoolDataTools.cache = {
     config, (type) => _.mapValues(type.fields, (item) => item.cellFormat || undefined),
   ),
   transformData:
-    _.mapValues(config, (item) => (item.transform ? _.template(item.transform) : undefined)),
+    _.mapValues(config, (item) => (item.transform ? _.template(item.transform, { imports: { moment } }) : undefined)),
 };
 
 function convert(command) {
