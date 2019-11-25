@@ -1,6 +1,6 @@
 {
   "basal": {
-    "transform": "<% return _.mapValues(data, (v, k) => ['duration','expectedDuration'].indexOf(k) === 0 ? v/1000/60 : v) %>",
+    "transform": "<% return _.mapValues(data, (v, k) => ['duration','expectedDuration'].indexOf(k) >= 0 ? v/1000/60 : v) %>",
     "fields": {
       "time": { "header": "Zulu Time", "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "localTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
@@ -379,6 +379,7 @@
       "energy": {
         "stringify": true
       },
+      "reportedIntensity": {},
       "timezoneOffset": { "width": 14 },
       "conversionOffset": { "width": 14 },
       "clockDriftOffset": { "width": 14 },
@@ -390,15 +391,15 @@
     }
   },
   "bolus": {
-    "transform": "<% return _.mapValues(data, (v, k) => ['duration','expectedDuration', 'extended', 'expectedExtended'].indexOf(k) === 0 ? v/1000/60 : v) %>",
+    "transform": "<% return _.mapValues(data, (v, k) => ['duration','expectedDuration'].indexOf(k) >= 0 ? v/1000/60 : v) %>",
     "fields": {
       "time": { "header": "Zulu Time", "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "localTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "deviceTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "type": { "header": "Tidepool Data Type", "width": 15 },
       "subType": {},
-      "duration": {},
-      "expectedDuration": {},
+      "duration": { "header": "Duration (mins)", "cellFormat": "0.00;-0.00;0", "width": 20 },
+      "expectedDuration": { "header": "Expected Duration (mins)", "cellFormat": "0.00;-0.00;0", "width": 20 },
       "extended": {},
       "expectedExtended": {},
       "normal": {},
@@ -414,7 +415,7 @@
     }
   },
   "deviceEvent": {
-    "transform": "<% return _.mapValues(data, (v, k) => ['duration','expectedDuration'].indexOf(k) === 0 ? v/1000/60 : v) %>",
+    "transform": "<% return _.mapValues(data, (v, k) => ['duration','expectedDuration'].indexOf(k) >= 0 ? v/1000/60 : v) %>",
     "fields": {
       "time": { "header": "Zulu Time", "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "localTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
@@ -425,9 +426,12 @@
       "value": { "cellFormat": "<%= bgUnits === 'mmol/L' ? '0.0': '0' %>", "width": 10 },
       "units": { "width": 10 },
       "duration": { "header": "Duration (mins)", "cellFormat": "0.00;-0.00;0" },
+      "expectedDuration": { "header": "Expected Duration (mins)", "cellFormat": "0.00;-0.00;0" },
       "change.from": {},
       "change.to": {},
       "change.agent": {},
+      "from": { "stringify": true },
+      "to": { "stringify": true },
       "status": {},
       "primeTarget": {},
       "volume": {},
@@ -447,6 +451,7 @@
     "fields": {
       "time": { "header": "Zulu Time", "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "localTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
+      "deviceTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "computerTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "timezone": {},
       "timeProcessing": {},
