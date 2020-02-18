@@ -162,10 +162,7 @@ const wb = new Excel.Workbook();
           data.payload = rawPayload;
         }
         // Rebuild missing units field for split out pumpSettings
-        if (_.indexOf(['pumpSettings.bgTarget', 'pumpSettings.bgTargets',
-          'pumpSettings.insulinSensitivity', 'pumpSettings.insulinSensitivities'], data.type) >= 0) {
-          data.units.carb = 'grams';
-        } else if (_.indexOf(['pumpSettings.carbRatio', 'pumpSettings.carbRatios'], data.type) >= 0) {
+        if (_.indexOf(['pumpSettings.carbRatio', 'pumpSettings.carbRatios'], data.type) >= 0) {
           data.units.bg = program.units;
         }
         outputData.push(data);
