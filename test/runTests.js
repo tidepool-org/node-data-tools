@@ -34,7 +34,7 @@ function testFixture(fixturePath, fixture, units) {
   const fixturePath = path.join(__dirname, 'fixtures');
   const fixtures = (process.argv.length > 2) ? process.argv.slice(2) : await readdir(fixturePath);
   // eslint-disable-next-line no-restricted-syntax
-  for (const fixture of fixtures) {
+  for (const fixture of fixtures.filter((fn) => fn.endsWith('.json'))) {
     testFixture(fixturePath, fixture, 'mmol/L');
     testFixture(fixturePath, fixture, 'mg/dL');
   }
