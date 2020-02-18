@@ -47,6 +47,7 @@ const excludedFields = [
   'createdTime',
   'modifiedTime',
   'origin',
+  'suppressed.suppressed',
 ];
 
 async function readInputFile(inputFile, inputData) {
