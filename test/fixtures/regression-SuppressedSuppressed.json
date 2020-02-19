@@ -1,0 +1,27 @@
+[
+  {
+    "conversionOffset": 0,
+    "deliveryType": "suspend",
+    "deviceTime": "2017-08-29T02:59:00",
+    "duration": 250000,
+    "payload": {
+      "logIndices": [
+        333
+      ]
+    },
+    "suppressed": {
+      "deliveryType": "temp",
+      "rate": 2.125,
+      "suppressed": {
+        "deliveryType": "scheduled",
+        "rate": 0.6,
+        "scheduleName": "standard",
+        "type": "basal"
+      },
+      "type": "basal"
+    },
+    "time": "2017-08-29T12:59:00.000Z",
+    "timezoneOffset": -600,
+    "type": "basal",
+  }
+]

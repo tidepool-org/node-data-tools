@@ -1,0 +1,144 @@
+[
+    {
+        "_active": true,
+        "_schemaVersion": 3,
+        "activeSchedule": "Weekday",
+        "basal": {
+            "rateMaximum": {
+                "units": "Units/hour",
+                "value": 2.5
+            }
+        },
+        "basalSchedules": {
+            "Exercise": [
+                {
+                    "rate": 0,
+                    "start": 0
+                }
+            ],
+            "Other": [
+                {
+                    "rate": 0,
+                    "start": 0
+                }
+            ],
+            "Weekday": [
+                {
+                    "rate": 0.8,
+                    "start": 0
+                },
+                {
+                    "rate": 0.9,
+                    "start": 23400000
+                },
+                {
+                    "rate": 1,
+                    "start": 32400000
+                },
+                {
+                    "rate": 1,
+                    "start": 75600000
+                }
+            ],
+            "Weekend": [
+                {
+                    "rate": 0,
+                    "start": 0
+                }
+            ]
+        },
+        "bgTarget": [
+            {
+                "range": 0.55507,
+                "start": 0,
+                "target": 5.55075
+            }
+        ],
+        "bolus": {
+            "amountMaximum": {
+                "units": "Units",
+                "value": 20
+            },
+            "calculator": {
+                "enabled": true,
+                "insulin": {
+                    "duration": 4,
+                    "units": "hours"
+                }
+            },
+            "extended": {
+                "enabled": true
+            }
+        },
+        "carbRatio": [
+            {
+                "amount": 10,
+                "start": 0
+            }
+        ],
+        "conversionOffset": 0,
+        "createdTime": "2018-12-14T17:22:10Z",
+        "deviceId": "XXXXXX-XX-XXXXX-XX",
+        "deviceTime": "2018-12-14T12:17:00",
+        "display": {
+            "bloodGlucose": {
+                "units": "mg/dL"
+            }
+        },
+        "insulinSensitivity": [
+            {
+                "amount": 2.2203,
+                "start": 0
+            },
+            {
+                "amount": 2.2203,
+                "start": 82800000
+            }
+        ],
+        "manufacturers": [
+            "Animas"
+        ],
+        "model": "XXXXXX",
+        "modifiedTime": "2018-12-14T17:22:10Z",
+        "revision": 1,
+        "serialNumber": "XX-XXXXX-XX",
+        "time": "2018-12-14T17:17:00.000Z",
+        "timezoneOffset": -300,
+        "type": "pumpSettings",
+        "units": {
+            "bg": "mmol/L",
+            "carb": "grams"
+        }
+    },
+    {
+        "_dataState": "open",
+        "_deduplicator": {
+            "name": "org.tidepool.deduplicator.device.truncate.dataset",
+            "version": "1.1.0"
+        },
+        "_state": "closed",
+        "client": {
+            "name": "org.tidepool.uploader",
+            "version": "2.8.6"
+        },
+        "computerTime": "2018-12-14T12:22:08",
+        "conversionOffset": 0,
+        "dataSetType": "normal",
+        "deviceId": "XXXXXX-XX-XXXXX-XX",
+        "deviceManufacturers": [
+            "Animas"
+        ],
+        "deviceModel": "XXXXXX",
+        "deviceSerialNumber": "XX-XXXXX-XX",
+        "deviceTags": [
+            "insulin-pump"
+        ],
+        "revision": 3,
+        "time": "2018-12-14T12:22:08-05:00",
+        "timeProcessing": "across-the-board-timezone",
+        "timezone": "US/East-Indiana",
+        "timezoneOffset": -300,
+        "type": "upload",
+        "version": "2.8.6"
+    }
+]
