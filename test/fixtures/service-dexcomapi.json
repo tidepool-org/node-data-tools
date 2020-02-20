@@ -1,0 +1,66 @@
+[
+    {
+        "_dataState": "open",
+        "_deduplicator": {
+            "name": "org.tidepool.deduplicator.none",
+            "version": "1.0.0"
+        },
+        "_state": "open",
+        "client": {
+            "name": "org.tidepool.oauth.dexcom.fetch",
+            "version": "1.0.0"
+        },
+        "dataSetType": "continuous",
+        "deviceManufacturers": [
+            "Dexcom"
+        ],
+        "deviceTags": [
+            "cgm"
+        ],
+        "id": "881815eb2c6b826115a5bc193705cfbc",
+        "revision": 1,
+        "time": "2019-07-22T15:35:48.365950469Z",
+        "timeProcessing": "none",
+        "type": "upload",
+        "uploadId": "881815eb2c6b826115a5bc193705cfbc"
+    },
+    {
+        "deviceTime": "2019-07-22T11:17:36",
+        "id": "518768c6619e4e2898da32fadab7e1c3",
+        "payload": {
+            "realTimeValue": 149,
+            "systemTime": "2019-07-22T15:17:36Z",
+            "transmitterId": "XXXXXX",
+            "transmitterTicks": 4764494,
+            "trend": "flat",
+            "trendRate": -0.3,
+            "trendRateUnits": "mg/dL/min"
+        },
+        "time": "2019-07-22T15:17:36Z",
+        "timezoneOffset": -240,
+        "type": "cbg",
+        "units": "mmol/L",
+        "uploadId": "881815eb2c6b826115a5bc193705cfbc",
+        "value": 8.27061
+    },
+    {
+        "deviceTime": "2019-07-22T11:12:37",
+        "id": "cffb616e4ea2ee63d47422847a448154",
+        "payload": {
+            "realTimeValue": 150,
+            "smoothedValue": 150,
+            "systemTime": "2019-07-22T15:12:37Z",
+            "transmitterId": "XXXXXX",
+            "transmitterTicks": 4764194,
+            "trend": "flat",
+            "trendRate": -0.3,
+            "trendRateUnits": "mg/dL/min"
+        },
+        "time": "2019-07-22T15:12:37Z",
+        "timezoneOffset": -240,
+        "type": "cbg",
+        "units": "mmol/L",
+        "uploadId": "881815eb2c6b826115a5bc193705cfbc",
+        "value": 8.32612
+    }
+]
