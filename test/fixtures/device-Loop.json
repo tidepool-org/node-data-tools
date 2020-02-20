@@ -250,5 +250,22 @@
         "timezoneOffset": -240,
         "type": "physicalActivity",
         "uploadId": "xxxxxxeb2c6b826115a5bc193705cfbc"
-    }
+    },
+    {
+        "_dataState": "open",
+        "_deduplicator": {
+          "name": "org.tidepool.deduplicator.dataset.delete.origin",
+          "version": "1.0.0"
+        },
+        "_state": "open",
+        "client": {
+          "name": "org.tidepool.mobile",
+          "version": "2.1.8"
+        },
+        "dataSetType": "continuous",
+        "id": "0009xxxxdc948d37675e38126d39d03e",
+        "revision": 1,
+        "type": "upload",
+        "uploadId": "xxxxxxeb2c6b826115a5bc193705cfbc"
+      }
 ]
