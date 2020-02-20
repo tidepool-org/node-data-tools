@@ -134,10 +134,10 @@ const wb = new Excel.Workbook();
               cellValue = moment.utc(cellValue).format('YYYY-MM-DDTHH:mm:ss');
             } else if (_.indexOf(['insulinSensitivity.start', 'insulinSensitivities.start', 'carbRatio.start',
               'carbRatios.start', 'bgTarget.start', 'bgTargets.start', 'basalSchedule.start'], fields[valueIdx - 1]) >= 0) {
-            // Convert to UNIX time as an Int
+              // Convert to UNIX time as an Int
               cellValue = parseInt(moment(cellValue).utc().format('x'), 10);
             } else if (fields[valueIdx - 1] === 'time') {
-            // Normalize `time` field (turn it into UTC)
+              // Normalize `time` field (turn it into UTC)
               cellValue = moment(cellValue).utc().toISOString();
             } else {
               try {
@@ -149,7 +149,7 @@ const wb = new Excel.Workbook();
                   rawPayload = cellValue;
                 }
               } catch (e) {
-              // Don't need to convert anything in this case.
+                // Don't need to convert anything in this case.
               }
             }
           }
