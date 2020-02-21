@@ -1,0 +1,271 @@
+[
+    {
+        "id": "0001xxxxdc948d37675e38126d39d03e",
+        "origin": {
+            "name": "com.apple.HealthKit",
+            "payload": {
+                "device": {
+                    "manufacturer": "Dexcom",
+                    "model": "G6",
+                    "name": "CGMBLEKit",
+                    "softwareVersion": "21.0"
+                },
+                "sourceRevision": {
+                    "operatingSystemVersion": "13.2.0",
+                    "productType": "iPhone12,3",
+                    "source": {
+                        "bundleIdentifier": "com.XXXXXXXXXX.loopkit.Loop",
+                        "name": "Loop"
+                    },
+                    "version": "57"
+                }
+            },
+            "type": "service"
+        },
+        "payload": {
+            "HKMetadataKeySyncIdentifier": "XXXXXX XXXXXXX",
+            "HKMetadataKeySyncVersion": 1,
+            "com.loudnate.GlucoseKit.HKMetadataKey.GlucoseIsDisplayOnly": 0
+        },
+        "time": "2019-11-07T21:23:49.324Z",
+        "type": "cbg",
+        "units": "mmol/L",
+        "value": 12.15614,
+        "uploadId": "xxxxxxeb2c6b826115a5bc193705cfbc"
+    },
+    {
+        "id": "0002xxxxdc948d37675e38126d39d03e",
+        "origin": {
+            "name": "com.apple.HealthKit",
+            "payload": {
+                "device": {
+                    "manufacturer": "Dexcom",
+                    "model": "G6",
+                    "name": "CGMBLEKit",
+                    "softwareVersion": "21.0"
+                },
+                "sourceRevision": {
+                    "operatingSystemVersion": "13.2.0",
+                    "productType": "iPhone12,3",
+                    "source": {
+                        "bundleIdentifier": "com.XXXXXXXXXX.loopkit.Loop",
+                        "name": "Loop"
+                    },
+                    "version": "57"
+                }
+            },
+            "type": "service"
+        },
+        "payload": {
+            "HKMetadataKeySyncIdentifier": "XXXXXX XXXXXXX",
+            "HKMetadataKeySyncVersion": 1,
+            "com.loudnate.GlucoseKit.HKMetadataKey.GlucoseIsDisplayOnly": 0
+        },
+        "time": "2019-11-07T21:18:49.452Z",
+        "type": "cbg",
+        "units": "mmol/L",
+        "value": 12.26715,
+        "uploadId": "xxxxxxeb2c6b826115a5bc193705cfbc"
+    },
+    {
+        "id": "0003xxxxdc948d37675e38126d39d03e",
+        "deliveryType": "temp",
+        "duration": 323971,
+        "origin": {
+            "name": "com.apple.HealthKit",
+            "payload": {
+                "device": {
+                    "firmwareVersion": "2.9.0",
+                    "localIdentifier": "XXXXXXXX",
+                    "manufacturer": "Insulet",
+                    "model": "Eros",
+                    "name": "Omnipod",
+                    "softwareVersion": "44.0"
+                },
+                "sourceRevision": {
+                    "operatingSystemVersion": "12.4.1",
+                    "productType": "iPhone8,1",
+                    "source": {
+                        "bundleIdentifier": "com.XXXXXXXXXX.loopkit.Loop",
+                        "name": "Loop"
+                    },
+                    "version": "57"
+                }
+            },
+            "type": "service"
+        },
+        "payload": {
+            "HKInsulinDeliveryReason": 1,
+            "HKMetadataKeySyncIdentifier": "73757370656e6420302e3020323031392d31302d32345430323a32383a32355a",
+            "HKMetadataKeySyncVersion": 1,
+            "HasLoopKitOrigin": 1,
+            "com.loopkit.InsulinKit.MetadataKeyScheduledBasalRate": "0.05 IU/hr"
+        },
+        "rate": 0,
+        "suppressed": {
+            "deliveryType": "scheduled",
+            "rate": 0.05,
+            "type": "basal"
+        },
+        "time": "2019-10-24T02:28:25.341Z",
+        "type": "basal",
+        "uploadId": "xxxxxxeb2c6b826115a5bc193705cfbc"
+    },
+    {
+        "id": "0004xxxxdc948d37675e38126d39d03e",
+        "normal": 3,
+        "origin": {
+            "name": "com.apple.HealthKit",
+            "payload": {
+                "device": {
+                    "name": "MockPumpManager",
+                    "softwareVersion": "41.0"
+                },
+                "sourceRevision": {
+                    "operatingSystemVersion": "13.2.0",
+                    "productType": "iPhone12,3",
+                    "source": {
+                        "bundleIdentifier": "com.XXXXXXXXXX.loopkit.Loop",
+                        "name": "Loop"
+                    },
+                    "version": "57"
+                }
+            },
+            "type": "service"
+        },
+        "payload": {
+            "HKInsulinDeliveryReason": 2,
+            "HKMetadataKeySyncIdentifier": "626f6c757320332e3020323031392d31312d30375431343a33313a33345a",
+            "HKMetadataKeySyncVersion": 1,
+            "HasLoopKitOrigin": 1
+        },
+        "subType": "normal",
+        "time": "2019-11-07T14:31:34.894Z",
+        "type": "bolus",
+        "uploadId": "xxxxxxeb2c6b826115a5bc193705cfbc"
+    },
+    {
+        "id": "0005xxxxdc948d37675e38126d39d03e",
+        "deviceTime": "2019-11-04T19:58:58",
+        "payload": {
+            "systemTime": "2019-11-05T00:58:58Z",
+            "transmitterId": "XXXXXX"
+        },
+        "subType": "calibration",
+        "time": "2019-11-05T00:58:58Z",
+        "timezoneOffset": -300,
+        "type": "deviceEvent",
+        "units": "mmol/L",
+        "value": 12.15614,
+        "uploadId": "xxxxxxeb2c6b826115a5bc193705cfbc"
+    },
+    {
+        "id": "0006xxxxdc948d37675e38126d39d03e",
+        "from": {
+            "timeZoneName": "America/Denver"
+        },
+        "subType": "timeChange",
+        "time": "2019-10-30T03:36:26.140Z",
+        "to": {
+            "timeZoneName": "America/Indiana/Indianapolis"
+        },
+        "type": "deviceEvent",
+        "uploadId": "xxxxxxeb2c6b826115a5bc193705cfbc"
+    },
+    {
+        "id": "0007xxxxdc948d37675e38126d39d03e",
+        "nutrition": {
+            "carbohydrate": {
+                "net": 12,
+                "units": "grams"
+            }
+        },
+        "origin": {
+            "name": "com.apple.HealthKit",
+            "payload": {
+                "sourceRevision": {
+                    "operatingSystemVersion": "13.2.0",
+                    "productType": "iPhone12,3",
+                    "source": {
+                        "bundleIdentifier": "com.XXXXXXXXXX.loopkit.Loop",
+                        "name": "Loop"
+                    },
+                    "version": "57"
+                }
+            },
+            "type": "service"
+        },
+        "payload": {
+            "HKMetadataKeySyncIdentifier": "98ED0E64-88C1-4E50-9851-7CE240A0EDDF",
+            "HKMetadataKeySyncVersion": 1,
+            "com.loudnate.CarbKit.HKMetadataKey.AbsorptionTimeMinutes": 10800
+        },
+        "time": "2019-11-03T18:43:37.959Z",
+        "type": "food",
+        "name": "🥫🍝",
+        "uploadId": "xxxxxxeb2c6b826115a5bc193705cfbc"
+    },
+    {
+        "id": "0007xxxxdc948d37675e38126d39d03e",
+        "origin": {
+            "name": "com.apple.HealthKit",
+            "payload": {
+                "sourceRevision": {
+                    "operatingSystemVersion": "12.4.1",
+                    "productType": "iPhone8,1",
+                    "source": {
+                        "bundleIdentifier": "com.apple.Health",
+                        "name": "Health"
+                    },
+                    "version": "12.4.1"
+                }
+            },
+            "type": "service"
+        },
+        "payload": {
+            "HKWasUserEntered": 1
+        },
+        "subType": "manual",
+        "time": "2019-10-25T17:32:00.000Z",
+        "type": "smbg",
+        "units": "mmol/L",
+        "value": 13.71035,
+        "uploadId": "xxxxxxeb2c6b826115a5bc193705cfbc"
+    },
+    {
+        "deviceTime": "2019-07-07T19:40:00",
+        "duration": {
+            "units": "minutes",
+            "value": 40
+        },
+        "id": "0008xxxxdc948d37675e38126d39d03e",
+        "origin": {
+            "id": "xxxxxxxx-b4cd-4fcd-b811-3a1ff3662418"
+        },
+        "payload": {
+            "systemTime": "2019-07-07T23:40:00Z"
+        },
+        "reportedIntensity": "medium",
+        "time": "2019-07-07T23:40:00Z",
+        "timezoneOffset": -240,
+        "type": "physicalActivity",
+        "uploadId": "xxxxxxeb2c6b826115a5bc193705cfbc"
+    },
+    {
+        "_dataState": "open",
+        "_deduplicator": {
+          "name": "org.tidepool.deduplicator.dataset.delete.origin",
+          "version": "1.0.0"
+        },
+        "_state": "open",
+        "client": {
+          "name": "org.tidepool.mobile",
+          "version": "2.1.8"
+        },
+        "dataSetType": "continuous",
+        "id": "0009xxxxdc948d37675e38126d39d03e",
+        "revision": 1,
+        "type": "upload",
+        "uploadId": "xxxxxxeb2c6b826115a5bc193705cfbc"
+      }
+]

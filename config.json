@@ -1,6 +1,6 @@
 {
   "basal": {
-    "transform": "<% return _.mapValues(data, (v, k) => ['duration','expectedDuration'].indexOf(k) === 0 ? v/1000/60 : v) %>",
+    "transform": "<% return _.mapValues(data, (v, k) => ['duration','expectedDuration'].indexOf(k) >= 0 ? v/1000/60 : v) %>",
     "fields": {
       "time": { "header": "Zulu Time", "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "localTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
@@ -71,8 +71,8 @@
       "type": { "header": "Tidepool Data Type", "width": 15 },
       "activeSchedule": {},
       "bgTarget": {},
-      "units.carb": {},
       "units.bg": {},
+      "units.carb": {},
       "carbRatio": {},
       "insulinSensitivity": {},
       "basalSchedules": {},
@@ -83,7 +83,9 @@
       "id": {},
       "uploadId": {},
       "payload": { "stringify": true },
-      "annotations": { "stringify": true }
+      "annotations": { "stringify": true },
+      "basal": { "stringify": true, "hidden": true },
+      "display": { "stringify": true, "hidden": true }
     }
   },
   "pumpSettings.basalSchedules": {
@@ -109,7 +111,9 @@
       "model": { "hidden": true },
       "serialNumber": { "hidden": true },
       "payload": { "stringify": true },
-      "annotations": { "stringify": true }
+      "annotations": { "stringify": true },
+      "basal": { "stringify": true, "hidden": true },
+      "display": { "stringify": true, "hidden": true }
     }
   },
   "pumpSettings.bgTarget": {
@@ -126,7 +130,8 @@
       "bgTarget.high": { "header": "BG High Target Setting", "cellFormat": "<%= bgUnits === 'mmol/L' ? '0.0': '0' %>" },
       "bgTarget.target": { "header": "BG Target Setting", "cellFormat": "<%= bgUnits === 'mmol/L' ? '0.0': '0' %>" },
       "bgTarget.range": { "header": "BG Target Range Setting", "cellFormat": "<%= bgUnits === 'mmol/L' ? '0.0': '0' %>" },
-      "units.bg": { "header": "Units" },
+      "units.bg": { "header": "BG Units" },
+      "units.carb": { "header": "Carb Units", "hidden": true },
       "timezoneOffset": { "width": 14 },
       "conversionOffset": { "width": 14 },
       "clockDriftOffset": { "width": 14 },
@@ -138,7 +143,9 @@
       "model": { "hidden": true },
       "serialNumber": { "hidden": true },
       "payload": { "stringify": true },
-      "annotations": { "stringify": true }
+      "annotations": { "stringify": true },
+      "basal": { "stringify": true, "hidden": true },
+      "display": { "stringify": true, "hidden": true }
     }
   },
   "pumpSettings.bgTargets": {
@@ -156,7 +163,8 @@
       "bgTarget.high": { "header": "BG High Target Setting", "cellFormat": "<%= bgUnits === 'mmol/L' ? '0.0': '0' %>" },
       "bgTarget.target": { "header": "BG Target Setting", "cellFormat": "<%= bgUnits === 'mmol/L' ? '0.0': '0' %>" },
       "bgTarget.range": { "header": "BG Target Range Setting", "cellFormat": "<%= bgUnits === 'mmol/L' ? '0.0': '0' %>" },
-      "units.bg": { "header": "Units" },
+      "units.bg": { "header": "BG Units" },
+      "units.carb": { "header": "Carb Units", "hidden": true },
       "timezoneOffset": { "width": 14 },
       "conversionOffset": { "width": 14 },
       "clockDriftOffset": { "width": 14 },
@@ -168,7 +176,9 @@
       "model": { "hidden": true },
       "serialNumber": { "hidden": true },
       "payload": { "stringify": true },
-      "annotations": { "stringify": true }
+      "annotations": { "stringify": true },
+      "basal": { "stringify": true, "hidden": true },
+      "display": { "stringify": true, "hidden": true }
     }
   },
   "pumpSettings.carbRatio": {
@@ -182,7 +192,8 @@
       "activeSchedule": {},
       "carbRatio.start": { "cellFormat": "[$-x-systime]h:mm am/pm" },
       "carbRatio.amount": {},
-      "units.carb": { "header": "Units" },
+      "units.bg": { "header": "BG Units", "hidden": true },
+      "units.carb": { "header": "Carb Units" },
       "timezoneOffset": { "width": 14 },
       "conversionOffset": { "width": 14 },
       "clockDriftOffset": { "width": 14 },
@@ -194,7 +205,9 @@
       "model": { "hidden": true },
       "serialNumber": { "hidden": true },
       "payload": { "stringify": true },
-      "annotations": { "stringify": true }
+      "annotations": { "stringify": true },
+      "basal": { "stringify": true, "hidden": true },
+      "display": { "stringify": true, "hidden": true }
     }
   },
   "pumpSettings.carbRatios": {
@@ -209,7 +222,8 @@
       "scheduleName": {},
       "carbRatio.start": { "cellFormat": "[$-x-systime]h:mm am/pm" },
       "carbRatio.amount": {},
-      "units.carb": { "header": "Units" },
+      "units.bg": { "header": "BG Units", "hidden": true },
+      "units.carb": { "header": "Carb Units" },
       "timezoneOffset": { "width": 14 },
       "conversionOffset": { "width": 14 },
       "clockDriftOffset": { "width": 14 },
@@ -221,7 +235,9 @@
       "model": { "hidden": true },
       "serialNumber": { "hidden": true },
       "payload": { "stringify": true },
-      "annotations": { "stringify": true }
+      "annotations": { "stringify": true },
+      "basal": { "stringify": true, "hidden": true },
+      "display": { "stringify": true, "hidden": true }
     }
   },
   "pumpSettings.insulinSensitivity": {
@@ -235,7 +251,8 @@
       "activeSchedule": {},
       "insulinSensitivity.start": { "cellFormat": "[$-x-systime]h:mm am/pm" },
       "insulinSensitivity.amount": { "cellFormat": "<%= bgUnits === 'mmol/L' ? '0.0': '0' %>" },
-      "units.bg": { "header": "Units" },
+      "units.bg": { "header": "BG Units" },
+      "units.carb": { "header": "Carb Units", "hidden": true },
       "timezoneOffset": { "width": 14 },
       "conversionOffset": { "width": 14 },
       "clockDriftOffset": { "width": 14 },
@@ -247,7 +264,9 @@
       "model": { "hidden": true },
       "serialNumber": { "hidden": true },
       "payload": { "stringify": true },
-      "annotations": { "stringify": true }
+      "annotations": { "stringify": true },
+      "basal": { "stringify": true, "hidden": true },
+      "display": { "stringify": true, "hidden": true }
     }
   },
   "pumpSettings.insulinSensitivities": {
@@ -262,7 +281,8 @@
       "scheduleName": {},
       "insulinSensitivity.start": { "cellFormat": "[$-x-systime]h:mm am/pm" },
       "insulinSensitivity.amount": { "cellFormat": "<%= bgUnits === 'mmol/L' ? '0.0': '0' %>" },
-      "units.bg": { "header": "Units" },
+      "units.bg": { "header": "BG Units" },
+      "units.carb": { "header": "Carb Units", "hidden": true },
       "timezoneOffset": { "width": 14 },
       "conversionOffset": { "width": 14 },
       "clockDriftOffset": { "width": 14 },
@@ -274,7 +294,9 @@
       "model": { "hidden": true },
       "serialNumber": { "hidden": true },
       "payload": { "stringify": true },
-      "annotations": { "stringify": true }
+      "annotations": { "stringify": true },
+      "basal": { "stringify": true, "hidden": true },
+      "display": { "stringify": true, "hidden": true }
     }
   },
   "smbg": {
@@ -317,6 +339,7 @@
       "bgTarget.target": { "header": "BG Target", "cellFormat": "<%= bgUnits === 'mmol/L' ? '0.0': '0' %>" },
       "bgTarget.high": { "header": "BG Target High", "cellFormat": "<%= bgUnits === 'mmol/L' ? '0.0': '0' %>" },
       "bgTarget.low": { "header": "BG Target Low", "cellFormat": "<%= bgUnits === 'mmol/L' ? '0.0': '0' %>" },
+      "bgTarget.range": { "header": "BG Target Range Setting", "cellFormat": "<%= bgUnits === 'mmol/L' ? '0.0': '0' %>" },
       "timezoneOffset": { "width": 14 },
       "conversionOffset": { "width": 14 },
       "clockDriftOffset": { "width": 14 },
@@ -333,6 +356,7 @@
       "localTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "deviceTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "type": { "header": "Tidepool Data Type", "width": 15 },
+      "name": {},
       "nutrition": {
         "stringify": true
       },
@@ -347,6 +371,7 @@
     }
   },
   "physicalActivity": {
+    "transform": "<% return _.mapValues(data, (v, k) => ['duration'].indexOf(k) >= 0 ? moment.duration(v.value,v.units).as('days') : v) %>",
     "fields": {
       "time": { "header": "Zulu Time", "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "localTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
@@ -356,12 +381,11 @@
       "distance": {
         "stringify": true
       },
-      "duration": {
-        "stringify": true
-      },
+      "duration": { "cellFormat": "[h]:mm:ss", "width": 20 },
       "energy": {
         "stringify": true
       },
+      "reportedIntensity": {},
       "timezoneOffset": { "width": 14 },
       "conversionOffset": { "width": 14 },
       "clockDriftOffset": { "width": 14 },
@@ -373,12 +397,17 @@
     }
   },
   "bolus": {
+    "transform": "<% return _.mapValues(data, (v, k) => ['duration','expectedDuration'].indexOf(k) >= 0 ? v/1000/60 : v) %>",
     "fields": {
       "time": { "header": "Zulu Time", "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "localTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "deviceTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "type": { "header": "Tidepool Data Type", "width": 15 },
       "subType": {},
+      "duration": { "header": "Duration (mins)", "cellFormat": "0.00;-0.00;0", "width": 20 },
+      "expectedDuration": { "header": "Expected Duration (mins)", "cellFormat": "0.00;-0.00;0", "width": 20 },
+      "extended": {},
+      "expectedExtended": {},
       "normal": {},
       "expectedNormal": {},
       "timezoneOffset": { "width": 14 },
@@ -392,7 +421,7 @@
     }
   },
   "deviceEvent": {
-    "transform": "<% return _.mapValues(data, (v, k) => ['duration','expectedDuration'].indexOf(k) === 0 ? v/1000/60 : v) %>",
+    "transform": "<% return _.mapValues(data, (v, k) => ['duration','expectedDuration'].indexOf(k) >= 0 ? v/1000/60 : v) %>",
     "fields": {
       "time": { "header": "Zulu Time", "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "localTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
@@ -403,9 +432,12 @@
       "value": { "cellFormat": "<%= bgUnits === 'mmol/L' ? '0.0': '0' %>", "width": 10 },
       "units": { "width": 10 },
       "duration": { "header": "Duration (mins)", "cellFormat": "0.00;-0.00;0" },
+      "expectedDuration": { "header": "Expected Duration (mins)", "cellFormat": "0.00;-0.00;0" },
       "change.from": {},
       "change.to": {},
       "change.agent": {},
+      "from": { "stringify": true },
+      "to": { "stringify": true },
       "status": {},
       "primeTarget": {},
       "volume": {},
@@ -425,6 +457,7 @@
     "fields": {
       "time": { "header": "Zulu Time", "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "localTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
+      "deviceTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "computerTime": { "cellFormat": "yyyy-mm-dd hh:mm:ss", "width": 18 },
       "timezone": {},
       "timeProcessing": {},

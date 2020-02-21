@@ -38,6 +38,16 @@ const excludedFields = [
   'dataSetType',
   'guid',
   'revision',
+  '_active',
+  '_groupId',
+  '_id',
+  '_schemaVersion',
+  '_userId',
+  '_version',
+  'createdTime',
+  'modifiedTime',
+  'origin',
+  'suppressed.suppressed',
 ];
 
 async function readInputFile(inputFile, inputData) {
@@ -97,7 +107,9 @@ const wb = new Excel.Workbook();
   for (const data of sortedInputData) {
     TidepoolDataTools.normalizeBgData(data, program.units);
     // Normalize `time` field (turn it into UTC)
-    data.time = moment(data.time).utc().toISOString();
+    if (data.time) {
+      data.time = moment(data.time).utc().toISOString();
+    }
     // Add the synthesized local time
     TidepoolDataTools.addLocalTime(data);
   }
@@ -114,25 +126,31 @@ const wb = new Excel.Workbook();
       // Skip the header
       if (rowNumber > 1) {
         let valueIdx = 1;
+        let rawPayload = null;
         const data = unflatten(_.omitBy(_.reduce(fields, (object, key) => {
           let cellValue = row.values[valueIdx];
-          if (_.indexOf(['deviceTime', 'computerTime'], fields[valueIdx - 1]) >= 0) {
-            cellValue = moment.utc(cellValue).format('YYYY-MM-DDTHH:mm:ss');
-          } else if (_.indexOf(['insulinSensitivity.start', 'insulinSensitivities.start', 'carbRatio.start',
-            'carbRatios.start', 'bgTarget.start', 'bgTargets.start', 'basalSchedule.start'], fields[valueIdx - 1]) >= 0) {
-            // Convert to UNIX time as an Int
-            cellValue = parseInt(moment(cellValue).utc().format('x'), 10);
-          } else if (fields[valueIdx - 1] === 'time') {
-            // Normalize `time` field (turn it into UTC)
-            cellValue = moment(cellValue).utc().toISOString();
-          } else {
-            try {
-              cellValue = JSON.parse(cellValue);
-              if (typeof cellValue !== 'object') {
-                cellValue = row.values[valueIdx];
+          if (!_.isUndefined(cellValue)) {
+            if (_.indexOf(['deviceTime', 'computerTime'], fields[valueIdx - 1]) >= 0) {
+              cellValue = moment.utc(cellValue).format('YYYY-MM-DDTHH:mm:ss');
+            } else if (_.indexOf(['insulinSensitivity.start', 'insulinSensitivities.start', 'carbRatio.start',
+              'carbRatios.start', 'bgTarget.start', 'bgTargets.start', 'basalSchedule.start'], fields[valueIdx - 1]) >= 0) {
+              // Convert to UNIX time as an Int
+              cellValue = parseInt(moment(cellValue).utc().format('x'), 10);
+            } else if (fields[valueIdx - 1] === 'time') {
+              // Normalize `time` field (turn it into UTC)
+              cellValue = moment(cellValue).utc().toISOString();
+            } else {
+              try {
+                cellValue = JSON.parse(cellValue);
+                if (typeof cellValue !== 'object') {
+                  cellValue = row.values[valueIdx];
+                }
+                if (fields[valueIdx - 1] === 'payload') {
+                  rawPayload = cellValue;
+                }
+              } catch (e) {
+                // Don't need to convert anything in this case.
               }
-            } catch (e) {
-              // Don't need to convert anything in this case.
             }
           }
           // eslint-disable-next-line no-param-reassign
@@ -140,11 +158,12 @@ const wb = new Excel.Workbook();
           valueIdx += 1;
           return object;
         }, {}), _.isUndefined));
+        // Restore payload, since unflatten could cause it to not match nesting levels correctly
+        if (data.payload) {
+          data.payload = rawPayload;
+        }
         // Rebuild missing units field for split out pumpSettings
-        if (_.indexOf(['pumpSettings.bgTarget', 'pumpSettings.bgTargets',
-          'pumpSettings.insulinSensitivity', 'pumpSettings.insulinSensitivities'], data.type) >= 0) {
-          data.units.carb = 'grams';
-        } else if (_.indexOf(['pumpSettings.carbRatio', 'pumpSettings.carbRatios'], data.type) >= 0) {
+        if (_.indexOf(['pumpSettings.carbRatio', 'pumpSettings.carbRatios'], data.type) >= 0) {
           data.units.bg = program.units;
         }
         outputData.push(data);
@@ -156,7 +175,20 @@ const wb = new Excel.Workbook();
 
   for (let i = 0; i < sortedInputData.length; i++) {
     if (sortedInputData[i].duration) {
-      sortedInputData[i].duration /= 60000;
+      if (typeof sortedInputData[i].duration !== 'object') {
+        // v/60000 !== v/1000/60, because, floats
+        sortedInputData[i].duration /= 1000;
+        sortedInputData[i].duration /= 60;
+      } else {
+        const v = sortedInputData[i].duration;
+        const duration = moment.duration(v.value, v.units).as('seconds');
+        sortedInputData[i].duration = moment.utc('1899-12-30').add(duration, 'seconds').toDate();
+      }
+    }
+    if (sortedInputData[i].expectedDuration) {
+      // v/60000 !== v/1000/60, because, floats
+      sortedInputData[i].expectedDuration /= 1000;
+      sortedInputData[i].expectedDuration /= 60;
     }
     const diff = diffString(_.omit(sortedInputData[i], excludedFields), sortedOutputData[i]);
     if (diff) {

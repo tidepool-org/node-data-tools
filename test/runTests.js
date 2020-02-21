@@ -18,9 +18,9 @@ function testFixture(fixturePath, fixture, units) {
     .update(path.parse(fixture).name)
     .digest('hex');
 
-  process.stdout.write(`Testing fixture ${fixture} in ${units}... `);
+  process.stdout.write(`Testing fixture ${fixture} in ${units} (writing to ${outputFile}.xlsx)... `);
   const convert = spawnSync(`${process.argv[0]} -r esm ${__dirname}/../index.js convert -i ${fixturePath}/${fixture} -u '${units}' -f xlsx -o ${__dirname}/output`, { shell: true });
-  const compare = spawnSync(`${process.argv[0]} -r esm ${__dirname}/exporter.test.js -i ${fixturePath}/${fixture} -u '${units}' -o ${__dirname}/output/${outputFile}.xlsx`, { shell: true });
+  const compare = spawnSync(`${process.argv[0]} --max-old-space-size=8192 -r esm ${__dirname}/exporter.test.js -i ${fixturePath}/${fixture} -u '${units}' -o ${__dirname}/output/${outputFile}.xlsx`, { shell: true });
   if (convert.status === 0 && compare.status === 0) {
     console.log('OK');
   } else {
@@ -34,7 +34,7 @@ function testFixture(fixturePath, fixture, units) {
   const fixturePath = path.join(__dirname, 'fixtures');
   const fixtures = (process.argv.length > 2) ? process.argv.slice(2) : await readdir(fixturePath);
   // eslint-disable-next-line no-restricted-syntax
-  for (const fixture of fixtures) {
+  for (const fixture of fixtures.filter((fn) => fn.endsWith('.json'))) {
     testFixture(fixturePath, fixture, 'mmol/L');
     testFixture(fixturePath, fixture, 'mg/dL');
   }

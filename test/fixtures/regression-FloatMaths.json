@@ -1,0 +1,15 @@
+[
+    {
+        "deliveryType": "temp",
+        "duration": 6090,
+        "payload": {
+            "HKInsulinDeliveryReason": 1,
+            "HKMetadataKeySyncIdentifier": "BasalRateSchedule 2019-10-23T20:18:12Z 2019-10-23T20:18:18Z",
+            "HKMetadataKeySyncVersion": 1,
+            "HasLoopKitOrigin": 1
+        },
+        "rate": 0,
+        "time": "2019-10-23T20:18:12.398Z",
+        "type": "basal",
+    }
+]
