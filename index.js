@@ -344,6 +344,12 @@ export default class TidepoolDataTools {
         }
       },
       async function end() {
+        // Worksheet 1 will always exist.
+        // It's the hidden ERROR sheet that we create at the beginning of this function.
+        if (wb.getWorksheet(2) === undefined) {
+          const emptySheet = wb.addWorksheet('NO DATA');
+          await emptySheet.addRow(['Data is not available within the specified date range.']).commit();
+        }
         await wb.commit();
         this.emit('end');
       },
