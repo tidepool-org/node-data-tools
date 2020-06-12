@@ -15,6 +15,8 @@ import config from './config.json';
 /* eslint no-console: ["error", { allow: ["warn", "error", "info"] }] */
 
 const MMOL_TO_MGDL = 18.01559;
+const EXPORT_ERROR = 'Due to the size of your export, Tidepool was unable to retrieve all of your data at one time. '
+                   + 'If your data appears incomplete, try the export again using a smaller date range.';
 
 export default class TidepoolDataTools {
   static typeDisplayName(type) {
@@ -267,14 +269,21 @@ export default class TidepoolDataTools {
 
   static jsonStreamWriter() {
     // Return a "compact" JSON Stream
-    return JSONStream.stringify('[', ',', ']');
+    const jsonStream = JSONStream.stringify('[', ',', ']');
+
+    jsonStream.cancel = () => {
+      jsonStream.end({ exportError: EXPORT_ERROR });
+      jsonStream.destroy();
+    };
+
+    return jsonStream;
   }
 
   static xlsxStreamWriter(outStream, streamConfig = { bgUnits: 'mmol/L' }) {
     const options = {
       stream: outStream,
       useStyles: true,
-      useSharedStrings: true,
+      useSharedStrings: false,
     };
     const wb = new Excel.stream.xlsx.WorkbookWriter(options);
 
@@ -283,16 +292,10 @@ export default class TidepoolDataTools {
     // first sheet they see when they open the XLSX.
     const errorSheet = wb.addWorksheet('EXPORT ERROR');
     (async () => {
-      await errorSheet.addRow(['The Export tool took too long to complete. Please send an email to support@tidepool.org and we\'ll help you out.']).commit();
-      errorSheet.state = 'veryHidden';
+      await errorSheet.addRow([EXPORT_ERROR]).commit();
     })();
 
-    outStream.on('timeout', () => {
-      // Unhide the error sheet
-      errorSheet.state = 'visible';
-    });
-
-    return es.through(
+    const xlsxStream = es.through(
       (data) => {
         if (data.type) {
           const sheetName = this.typeDisplayName(data.type);
@@ -345,15 +348,25 @@ export default class TidepoolDataTools {
       },
       async function end() {
         // Worksheet 1 will always exist.
-        // It's the hidden ERROR sheet that we create at the beginning of this function.
+        // It's the ERROR sheet that we create at the beginning of this function.
         if (wb.getWorksheet(2) === undefined) {
           const emptySheet = wb.addWorksheet('NO DATA');
           await emptySheet.addRow(['Data is not available within the specified date range.']).commit();
         }
+        // Hide the ERROR sheet on success
+        errorSheet.state = 'veryHidden';
         await wb.commit();
         this.emit('end');
       },
     );
+
+    xlsxStream.cancel = async () => {
+      xlsxStream.destroy();
+      // Close out the XLSX file without hiding the ERROR sheet.
+      await wb.commit();
+    };
+
+    return xlsxStream;
   }
 }
 
