@@ -1,0 +1,726 @@
+[
+  {
+    "annotations": [
+      {
+        "code": "status/incomplete-tuple"
+      }
+    ],
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-03T17:00:00",
+    "id": "2de135c0a329e216c57baecbe1c320a4",
+    "payload": {
+      "logIndices": [
+        0
+      ],
+      "resumeDeviceTime": "2006-12-31T00:00:00"
+    },
+    "reason": {
+      "suspended": "manual"
+    },
+    "revision": 1,
+    "status": "suspended",
+    "subType": "status",
+    "time": "2020-03-03T22:00:00.000Z",
+    "timezoneOffset": -300,
+    "type": "deviceEvent",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "activeSchedule": "Weekday",
+    "basal": {
+      "rateMaximum": {
+        "units": "Units/hour",
+        "value": 2
+      }
+    },
+    "basalSchedules": {
+      "Exercise": [
+        {
+          "rate": 0,
+          "start": 0
+        }
+      ],
+      "Other": [
+        {
+          "rate": 0,
+          "start": 0
+        }
+      ],
+      "Weekday": [
+        {
+          "rate": 0.35,
+          "start": 0
+        },
+        {
+          "rate": 0.5,
+          "start": 14400000
+        },
+        {
+          "rate": 1.6,
+          "start": 36000000
+        },
+        {
+          "rate": 1.25,
+          "start": 64800000
+        },
+        {
+          "rate": 0.85,
+          "start": 84600000
+        }
+      ],
+      "Weekend": [
+        {
+          "rate": 0,
+          "start": 0
+        }
+      ]
+    },
+    "bgTarget": [
+      {
+        "range": 0.55507,
+        "start": 0,
+        "target": 6.6609
+      }
+    ],
+    "bolus": {
+      "amountMaximum": {
+        "units": "Units",
+        "value": 15
+      },
+      "calculator": {
+        "enabled": true,
+        "insulin": {
+          "duration": 4,
+          "units": "hours"
+        }
+      },
+      "extended": {
+        "enabled": true
+      }
+    },
+    "carbRatio": [
+      {
+        "amount": 15,
+        "start": 0
+      }
+    ],
+    "conversionOffset": 0,
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-03T17:00:00",
+    "display": {
+      "bloodGlucose": {
+        "units": "mg/dL"
+      }
+    },
+    "id": "5a077ecf09c3344720d3801a396dc5bc",
+    "insulinSensitivity": [
+      {
+        "amount": 3.16393,
+        "start": 0
+      }
+    ],
+    "manufacturers": [
+      "Animas"
+    ],
+    "model": "IR1285",
+    "revision": 1,
+    "serialNumber": "72-36107-15",
+    "time": "2020-03-03T22:00:00.000Z",
+    "timezoneOffset": -300,
+    "type": "pumpSettings",
+    "units": {
+      "bg": "mmol/L",
+      "carb": "grams"
+    },
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-03T16:56:00",
+    "id": "0b6f50de1591660fa11a089d3e470579",
+    "normal": 0.15,
+    "payload": {
+      "bgOrCarbTriggered": "neither",
+      "logIndices": [
+        0
+      ],
+      "triggeredBy": "pump"
+    },
+    "revision": 1,
+    "subType": "normal",
+    "time": "2020-03-03T21:56:00.000Z",
+    "timezoneOffset": -300,
+    "type": "bolus",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "_dataState": "open",
+    "_deduplicator": {
+      "name": "org.tidepool.deduplicator.device.truncate.dataset",
+      "version": "1.1.0"
+    },
+    "_state": "closed",
+    "client": {
+      "name": "org.tidepool.uploader",
+      "private": {
+        "os": "win32-x64-10.0.17763"
+      },
+      "version": "2.27.0"
+    },
+    "computerTime": "2020-03-03T17:04:33",
+    "conversionOffset": 0,
+    "dataSetType": "normal",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceManufacturers": [
+      "Animas"
+    ],
+    "deviceModel": "IR1285",
+    "deviceSerialNumber": "72-36107-15",
+    "deviceTags": [
+      "insulin-pump"
+    ],
+    "deviceTime": "2020-03-03T17:00:00",
+    "id": "3ca65d2d6086bd134ce69985a3465630",
+    "revision": 3,
+    "time": "2020-03-03T17:04:33-05:00",
+    "timeProcessing": "across-the-board-timezone",
+    "timezone": "US/Eastern",
+    "timezoneOffset": -300,
+    "type": "upload",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630",
+    "version": "2.27.0"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-03T11:46:00",
+    "duration": 18900000,
+    "id": "425b2e14603d4da7a8e4a8e8496dd482",
+    "payload": {
+      "logIndices": [
+        1
+      ]
+    },
+    "rate": 1.6,
+    "revision": 1,
+    "time": "2020-03-03T16:46:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-03T11:42:00",
+    "id": "0f38058497d5c780978d87a557a7196b",
+    "payload": {
+      "logIndices": [
+        1
+      ]
+    },
+    "primeTarget": "tubing",
+    "revision": 1,
+    "subType": "prime",
+    "time": "2020-03-03T16:42:00.000Z",
+    "timezoneOffset": -300,
+    "type": "deviceEvent",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630",
+    "volume": 2.93
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-03T11:42:00",
+    "id": "9d8fa6a6b2d21c82d200671b9e84f854",
+    "payload": {
+      "logIndices": [
+        0
+      ]
+    },
+    "primeTarget": "cannula",
+    "revision": 1,
+    "subType": "prime",
+    "time": "2020-03-03T16:42:00.000Z",
+    "timezoneOffset": -300,
+    "type": "deviceEvent",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630",
+    "volume": 0.35
+  },
+  {
+    "annotations": [
+      {
+        "code": "animas/basal/marked-suspended-from-alarm"
+      }
+    ],
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "suspend",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-03T11:40:00",
+    "duration": 360000,
+    "id": "1c95e14f60717aa7fcbe857a26e23537",
+    "payload": {
+      "logIndices": [
+        2
+      ]
+    },
+    "revision": 1,
+    "time": "2020-03-03T16:40:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "annotations": [
+      {
+        "code": "animas/status/fabricated-from-alarm"
+      }
+    ],
+    "conversionOffset": 0,
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-03T11:40:00",
+    "duration": 360000,
+    "id": "998e217a5535db756b989ee589da86de",
+    "payload": {
+      "cause": "no_insulin"
+    },
+    "reason": {
+      "resumed": "manual",
+      "suspended": "automatic"
+    },
+    "revision": 1,
+    "status": "suspended",
+    "subType": "status",
+    "time": "2020-03-03T16:40:00.000Z",
+    "timezoneOffset": -300,
+    "type": "deviceEvent",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "alarmType": "no_insulin",
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-03T10:28:00",
+    "id": "3b357c7a4f05be48b97721cc5ccb533d",
+    "payload": {
+      "logIndices": [
+        0
+      ]
+    },
+    "revision": 1,
+    "status": "998e217a5535db756b989ee589da86de",
+    "subType": "alarm",
+    "time": "2020-03-03T15:28:00.000Z",
+    "timezoneOffset": -300,
+    "type": "deviceEvent",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-03T10:01:00",
+    "duration": 5940000,
+    "id": "c86dd8e044767277de93498316859e0a",
+    "payload": {
+      "logIndices": [
+        3
+      ]
+    },
+    "rate": 1.6,
+    "revision": 1,
+    "time": "2020-03-03T15:01:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-03T04:01:00",
+    "duration": 21600000,
+    "id": "88c1396783666e3be824a3cdb6c47993",
+    "payload": {
+      "logIndices": [
+        4
+      ]
+    },
+    "rate": 0.5,
+    "revision": 1,
+    "time": "2020-03-03T09:01:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-03T00:01:00",
+    "duration": 14400000,
+    "id": "a3ba9e99bc63b2a95fbb2dbd9f85c31f",
+    "payload": {
+      "logIndices": [
+        5
+      ]
+    },
+    "rate": 0.35,
+    "revision": 1,
+    "time": "2020-03-03T05:01:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-02T23:31:00",
+    "duration": 1800000,
+    "id": "27c62c626434d1a013bb3a6be7c1f9fb",
+    "payload": {
+      "logIndices": [
+        6
+      ]
+    },
+    "rate": 0.85,
+    "revision": 1,
+    "time": "2020-03-03T04:31:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-02T18:01:00",
+    "duration": 19800000,
+    "id": "988c32b3999310ad13970dcbdd1420fc",
+    "payload": {
+      "logIndices": [
+        7
+      ]
+    },
+    "rate": 1.25,
+    "revision": 1,
+    "time": "2020-03-02T23:01:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "alarmType": "low_insulin",
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-02T13:19:00",
+    "id": "44681f0d90e51d54cb7ea1f6953a8ab8",
+    "payload": {
+      "logIndices": [
+        1
+      ]
+    },
+    "revision": 1,
+    "subType": "alarm",
+    "time": "2020-03-02T18:19:00.000Z",
+    "timezoneOffset": -300,
+    "type": "deviceEvent",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-02T10:01:00",
+    "duration": 28800000,
+    "id": "c660046b28a1be71dfaf9be5c0642650",
+    "payload": {
+      "logIndices": [
+        8
+      ]
+    },
+    "rate": 1.6,
+    "revision": 1,
+    "time": "2020-03-02T15:01:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-02T04:01:00",
+    "duration": 21600000,
+    "id": "7714367792d497f289ae0abb92675ac0",
+    "payload": {
+      "logIndices": [
+        9
+      ]
+    },
+    "rate": 0.5,
+    "revision": 1,
+    "time": "2020-03-02T09:01:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-02T00:01:00",
+    "duration": 14400000,
+    "id": "957c4fe7e3a50895c7ff0916b71de960",
+    "payload": {
+      "logIndices": [
+        10
+      ]
+    },
+    "rate": 0.35,
+    "revision": 1,
+    "time": "2020-03-02T05:01:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-01T23:31:00",
+    "duration": 1800000,
+    "id": "a481b0a6fa2a14cd66f0482fc66a9866",
+    "payload": {
+      "logIndices": [
+        11
+      ]
+    },
+    "rate": 0.85,
+    "revision": 1,
+    "time": "2020-03-02T04:31:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-01T18:01:00",
+    "duration": 19800000,
+    "id": "7e56b0586e826b10a6d434b9789ee2ca",
+    "payload": {
+      "logIndices": [
+        12
+      ]
+    },
+    "rate": 1.25,
+    "revision": 1,
+    "time": "2020-03-01T23:01:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-01T10:01:00",
+    "duration": 28800000,
+    "id": "9ddcae9c76a97dec4567f4da8cba9b59",
+    "payload": {
+      "logIndices": [
+        13
+      ]
+    },
+    "rate": 1.6,
+    "revision": 1,
+    "time": "2020-03-01T15:01:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-01T04:01:00",
+    "duration": 21600000,
+    "id": "58531428838aacee1adfeddc8aafed90",
+    "payload": {
+      "logIndices": [
+        14
+      ]
+    },
+    "rate": 0.5,
+    "revision": 1,
+    "time": "2020-03-01T09:01:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-03-01T00:01:00",
+    "duration": 14400000,
+    "id": "b56f60c0c86b07a1f627e7491d407c66",
+    "payload": {
+      "logIndices": [
+        15
+      ]
+    },
+    "rate": 0.35,
+    "revision": 1,
+    "time": "2020-03-01T05:01:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-02-29T23:31:00",
+    "duration": 1800000,
+    "id": "8e4a2a9ea09854b5d1f0f42a2a529c09",
+    "payload": {
+      "logIndices": [
+        16
+      ]
+    },
+    "rate": 0.85,
+    "revision": 1,
+    "time": "2020-03-01T04:31:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-02-29T18:01:00",
+    "duration": 19800000,
+    "id": "539002bb522a97020e457692682b76e8",
+    "payload": {
+      "logIndices": [
+        17
+      ]
+    },
+    "rate": 1.25,
+    "revision": 1,
+    "time": "2020-02-29T23:01:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-02-29T10:01:00",
+    "duration": 28800000,
+    "id": "4c968b20bf546803921a97f0b4593bf0",
+    "payload": {
+      "logIndices": [
+        18
+      ]
+    },
+    "rate": 1.6,
+    "revision": 1,
+    "time": "2020-02-29T15:01:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-02-29T04:01:00",
+    "duration": 21600000,
+    "id": "31d24d00b7dbf9e916f324578a22ad68",
+    "payload": {
+      "logIndices": [
+        19
+      ]
+    },
+    "rate": 0.5,
+    "revision": 1,
+    "time": "2020-02-29T09:01:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-02-29T00:01:00",
+    "duration": 14400000,
+    "id": "f32a342ddef7b5e9e91bf20920aacb42",
+    "payload": {
+      "logIndices": [
+        20
+      ]
+    },
+    "rate": 0.35,
+    "revision": 1,
+    "time": "2020-02-29T05:01:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  },
+  {
+    "clockDriftOffset": 0,
+    "conversionOffset": 0,
+    "deliveryType": "scheduled",
+    "deviceId": "IR1285-72-36107-15",
+    "deviceTime": "2020-02-28T23:31:00",
+    "duration": 1800000,
+    "id": "dd3559f412a287118d2dd43ae32d3c5d",
+    "payload": {
+      "logIndices": [
+        21
+      ]
+    },
+    "rate": 0.85,
+    "revision": 1,
+    "time": "2020-02-29T04:31:00.000Z",
+    "timezoneOffset": -300,
+    "type": "basal",
+    "uploadId": "3ca65d2d6086bd134ce69985a3465630"
+  }
+]
