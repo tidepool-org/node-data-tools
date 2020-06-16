@@ -115,23 +115,27 @@ export default class TidepoolDataTools {
           _.assign(data, { insulinSensitivity: data.insulinSensitivity * conversion });
         }
         if (data.bgTarget) {
-          const bgTarget = _.cloneDeep(typeof data.bgTarget === 'string' ? JSON.parse(data.bgTarget) : data.bgTarget);
-          _.map(bgTarget, (value, key) => (_.includes(['high', 'low', 'target', 'range'], key) ? value * conversion : value));
+          const bgTarget = _(_.cloneDeep(typeof data.bgTarget === 'string' ? JSON.parse(data.bgTarget) : data.bgTarget))
+            .mapValues((value, key) => (_.includes(['high', 'low', 'target', 'range'], key) ? value * conversion : value))
+            .value();
           _.assign(data, {
             bgTarget: typeof data.bgTarget === 'string' ? JSON.stringify(bgTarget) : bgTarget,
           });
         }
         break;
       case 'pumpSettings.bgTarget':
+      case 'pumpSettings.bgTargets':
         if (data.bgTarget) {
-          const bgTarget = _.cloneDeep(typeof data.bgTarget === 'string' ? JSON.parse(data.bgTarget) : data.bgTarget);
-          _.map(bgTarget, (value, key) => (_.includes(['high', 'low', 'target', 'range'], key) ? value * conversion : value));
+          const bgTarget = _(_.cloneDeep(typeof data.bgTarget === 'string' ? JSON.parse(data.bgTarget) : data.bgTarget))
+            .mapValues((value, key) => (_.includes(['high', 'low', 'target', 'range'], key) ? value * conversion : value))
+            .value();
           _.assign(data, {
             bgTarget: typeof data.bgTarget === 'string' ? JSON.stringify(bgTarget) : bgTarget,
           });
         }
         break;
       case 'pumpSettings.insulinSensitivity':
+      case 'pumpSettings.insulinSensitivities':
         if (data.insulinSensitivity) {
           const isf = _.cloneDeep(typeof data.insulinSensitivity === 'string' ? JSON.parse(data.insulinSensitivity) : data.insulinSensitivity);
           if (isf.amount) {
