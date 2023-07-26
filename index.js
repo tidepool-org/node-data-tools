@@ -11,7 +11,13 @@ import es from 'event-stream';
 import flatten from 'flat';
 import Excel from 'exceljs';
 import * as CSV from 'csv-string';
-import config from './config.json';
+import { fileURLToPath } from 'url';
+import process from 'process';
+import config from './config.json' assert { type: 'json' };
+
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
 /* eslint no-console: ["error", { allow: ["warn", "error", "info"] }] */
 
 const MMOL_TO_MGDL = 18.01559;
@@ -493,7 +499,7 @@ function getData() {
 }
 */
 
-if (require.main === module) {
+if (process.argv[1] === __filename) {
   program
     .name('tidepool-data-tools')
     .version('0.1.0');
