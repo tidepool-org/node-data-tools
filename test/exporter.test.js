@@ -7,7 +7,8 @@ import Excel from 'exceljs';
 import { diffString } from 'json-diff';
 import TidepoolDataTools from '../index.js';
 
-const { unflatten } = import('flat');
+const flatImport = await import('flat');
+const { unflatten } = flatImport.default;
 /* eslint-disable no-console */
 
 program
