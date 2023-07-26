@@ -1,6 +1,6 @@
 {
   "name": "@tidepool/data-tools",
-  "version": "2.4.1-esm.1",
+  "version": "2.4.1-esm.2",
   "description": "Export data from the Tidepool API to various file formats",
   "repository": "https://github.com/tidepool-org/data-analytics.git",
   "author": "Lennart Goedhart <lennart@tidepool.org>",
