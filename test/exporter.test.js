@@ -4,10 +4,11 @@ import program from 'commander';
 import es from 'event-stream';
 import fs from 'fs';
 import Excel from 'exceljs';
-import { unflatten } from 'flat';
 import { diffString } from 'json-diff';
-import TidepoolDataTools from '../index';
+import TidepoolDataTools from '../index.js';
 
+const flatImport = await import('flat');
+const { unflatten } = flatImport.default;
 /* eslint-disable no-console */
 
 program

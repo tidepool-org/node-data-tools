@@ -4,5 +4,5 @@ for PROG in node{js,}; do
   </dev/null "$PROG" 2>/dev/null && break
 done
 
-exec -a "$0" "$PROG" -r esm -- index.js "$@"; exit $?
+exec -a "$0" "$PROG" -- index.js "$@"; exit $?
 

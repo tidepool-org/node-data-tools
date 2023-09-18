@@ -4,6 +4,11 @@ import fs from 'fs';
 import util from 'util';
 import crypto from 'crypto';
 import { spawnSync } from 'child_process';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
 
 const outputPath = path.join(__dirname, 'output');
 if (!fs.existsSync(outputPath)) {
@@ -19,8 +24,8 @@ function testFixture(fixturePath, fixture, units) {
     .digest('hex');
 
   process.stdout.write(`Testing fixture ${fixture} in ${units} (writing to ${outputFile}.xlsx)... `);
-  const convert = spawnSync(`${process.argv[0]} -r esm ${__dirname}/../index.js convert -i ${fixturePath}/${fixture} -u '${units}' -f xlsx -o ${__dirname}/output`, { shell: true });
-  const compare = spawnSync(`${process.argv[0]} --max-old-space-size=8192 -r esm ${__dirname}/exporter.test.js -i ${fixturePath}/${fixture} -u '${units}' -o ${__dirname}/output/${outputFile}.xlsx`, { shell: true });
+  const convert = spawnSync(`${process.argv[0]} ${__dirname}/../index.js convert -i ${fixturePath}/${fixture} -u '${units}' -f xlsx -o ${__dirname}/output`, { shell: true });
+  const compare = spawnSync(`${process.argv[0]} --max-old-space-size=8192 ${__dirname}/exporter.test.js -i ${fixturePath}/${fixture} -u '${units}' -o ${__dirname}/output/${outputFile}.xlsx`, { shell: true });
   if (convert.status === 0 && compare.status === 0) {
     console.log('OK');
   } else {
