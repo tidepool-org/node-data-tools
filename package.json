@@ -1,6 +1,6 @@
 {
   "name": "@tidepool/data-tools",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "Export data from the Tidepool API to various file formats",
   "repository": "https://github.com/tidepool-org/data-analytics.git",
   "author": "Lennart Goedhart <lennart@tidepool.org>",
@@ -21,7 +21,7 @@
     "commander": "4.1.1",
     "csv-string": "3.1.7",
     "event-stream": "3.3.4",
-    "exceljs": "4.3.0",
+    "exceljs": "4.4.0",
     "flat": "5.0.0",
     "lodash": "4.17.15",
     "mkdirp": "1.0.3",
