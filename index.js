@@ -9,7 +9,7 @@ import program from 'commander';
 import JSONStream from 'JSONStream';
 import es from 'event-stream';
 import flatten from 'flat';
-import Excel from 'exceljs';
+import Excel from '@zlooun/exceljs';
 import * as CSV from 'csv-string';
 import { fileURLToPath } from 'url';
 import process from 'process';
@@ -273,7 +273,7 @@ export default class TidepoolDataTools {
     return jsonStream;
   }
 
-  static xlsxStreamWriter(outStream, streamConfig = { bgUnits: 'mmol/L' }) {
+  static async xlsxStreamWriter(outStream, streamConfig = { bgUnits: 'mmol/L' }) {
     const options = {
       stream: outStream,
       useStyles: true,
@@ -285,74 +285,76 @@ export default class TidepoolDataTools {
     // We create this up front, so that if the user experiences an error, this is the
     // first sheet they see when they open the XLSX.
     const errorSheet = wb.addWorksheet('EXPORT ERROR');
-    (async () => {
-      await errorSheet.addRow([EXPORT_ERROR]).commit();
-    })();
+    await errorSheet.addRow([EXPORT_ERROR]).commit();
 
-    const xlsxStream = es.through(
-      (data) => {
-        if (data.type) {
-          const sheetName = this.typeDisplayName(data.type);
-          if (_.isUndefined(sheetName)) {
-            console.warn(`Warning: configuration ignores data type: '${data.type}'`);
-            return;
-          }
-          let sheet = wb.getWorksheet(sheetName);
-          if (_.isUndefined(sheet)) {
-            sheet = wb.addWorksheet(sheetName, {
-              views: [{
-                state: 'frozen',
-                xSplit: 0,
-                ySplit: 1,
-                topLeftCell: 'A2',
-                activeCell: 'A2',
-              }],
-            });
-            sheet.columns = Object.keys(config[data.type].fields).map((field) => ({
-              header: this.fieldHeader(data.type, field),
-              key: field,
-              hidden: this.fieldHidden(data.type, field),
-              width: this.fieldWidth(data.type, field),
-              style: { numFmt: this.cellFormat(data.type, field, streamConfig) },
-            }));
-            sheet.getRow(1).font = {
-              bold: true,
-            };
-          }
-          // Convert timestamps to Excel Dates
-          if (data.time) {
-            _.assign(data, {
-              time: moment(data.time).toDate(),
-            });
-          }
-          if (data.deviceTime) {
-            _.assign(data, {
-              deviceTime: moment.utc(data.deviceTime).toDate(),
-            });
-          }
-          if (data.computerTime) {
-            _.assign(data, {
-              computerTime: moment.utc(data.computerTime).toDate(),
-            });
-          }
-          sheet.addRow(data).commit();
-        } else {
-          console.warn(`No data type specified: '${JSON.stringify(data)}Invalid'`);
+    const addRow = async function addRow(data) {
+      if (data.type) {
+        const sheetName = TidepoolDataTools.typeDisplayName(data.type);
+        if (_.isUndefined(sheetName)) {
+          console.warn(`Warning: configuration ignores data type: '${data.type}'`);
+          return;
         }
-      },
-      async function end() {
-        // Worksheet 1 will always exist.
-        // It's the ERROR sheet that we create at the beginning of this function.
-        if (wb.getWorksheet(2) === undefined) {
-          const emptySheet = wb.addWorksheet('NO DATA');
-          await emptySheet.addRow(['Data is not available within the specified date range.']).commit();
+        let sheet = wb.getWorksheet(sheetName);
+        if (_.isUndefined(sheet)) {
+          sheet = wb.addWorksheet(sheetName, {
+            views: [{
+              state: 'frozen',
+              xSplit: 0,
+              ySplit: 1,
+              topLeftCell: 'A2',
+              activeCell: 'A2',
+            }],
+          });
+          sheet.columns = Object.keys(config[data.type].fields).map((field) => ({
+            header: TidepoolDataTools.fieldHeader(data.type, field),
+            key: field,
+            hidden: TidepoolDataTools.fieldHidden(data.type, field),
+            width: TidepoolDataTools.fieldWidth(data.type, field),
+            style: { numFmt: TidepoolDataTools.cellFormat(data.type, field, streamConfig) },
+          }));
+          sheet.getRow(1).font = {
+            bold: true,
+          };
         }
-        // Hide the ERROR sheet on success
-        errorSheet.state = 'veryHidden';
-        await wb.commit();
-        this.emit('end');
-      },
-    );
+        // Convert timestamps to Excel Dates
+        if (data.time) {
+          _.assign(data, {
+            time: moment(data.time).toDate(),
+          });
+        }
+        if (data.deviceTime) {
+          _.assign(data, {
+            deviceTime: moment.utc(data.deviceTime).toDate(),
+          });
+        }
+        if (data.computerTime) {
+          _.assign(data, {
+            computerTime: moment.utc(data.computerTime).toDate(),
+          });
+        }
+        await sheet.addRow(data).commit();
+      } else {
+        console.warn(`No data type specified: '${JSON.stringify(data)}Invalid'`);
+      }
+    };
+
+    const xlsxStream = es
+      .map((data, callback) => addRow(data).then(() => callback(), (err) => callback(err)))
+      .pipe(es.through(
+        (data) => data,
+        async function end() {
+          // Worksheet 1 will always exist.
+          // It's the ERROR sheet that we create at the beginning of this function.
+          if (wb.getWorksheet(2) === undefined) {
+            const emptySheet = wb.addWorksheet('NO DATA');
+            await emptySheet.addRow(['Data is not available within the specified date range.']).commit();
+          }
+          // Hide the ERROR sheet on success
+          errorSheet.state = 'veryHidden';
+          await wb.commit();
+          this.emit('end');
+        },
+      ));
 
     xlsxStream.cancel = async () => {
       xlsxStream.destroy();
