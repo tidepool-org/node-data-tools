@@ -338,9 +338,10 @@ export default class TidepoolDataTools {
       }
     };
 
-    const xlsxStream = es.map((data, callback) => addRow(data).then(callback, callback))
+    const xlsxStream = es
+      .map((data, callback) => addRow(data).then(() => callback(), (err) => callback(err)))
       .pipe(es.through(
-        () => {},
+        (data) => data,
         async function end() {
           // Worksheet 1 will always exist.
           // It's the ERROR sheet that we create at the beginning of this function.
