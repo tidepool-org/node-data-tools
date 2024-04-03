@@ -182,8 +182,10 @@ export default class TidepoolDataTools {
           if (data.bgTargets) {
             for (const scheduleName of _.keys(data.bgTargets)) {
               for (const bgTarget of data.bgTargets[scheduleName]) {
-                const emitData = _.assign({ bgTarget, scheduleName, units: data.units },
-                  commonFields);
+                const emitData = _.assign(
+                  { bgTarget, scheduleName, units: data.units },
+                  commonFields,
+                );
                 emitData.type = 'pumpSettings.bgTargets';
                 this.emit('data', emitData);
               }
@@ -199,8 +201,10 @@ export default class TidepoolDataTools {
           if (data.carbRatios) {
             for (const scheduleName of _.keys(data.carbRatios)) {
               for (const carbRatio of data.carbRatios[scheduleName]) {
-                const emitData = _.assign({ carbRatio, scheduleName, units: data.units },
-                  commonFields);
+                const emitData = _.assign(
+                  { carbRatio, scheduleName, units: data.units },
+                  commonFields,
+                );
                 emitData.type = 'pumpSettings.carbRatios';
                 this.emit('data', emitData);
               }
@@ -216,8 +220,10 @@ export default class TidepoolDataTools {
           if (data.insulinSensitivities) {
             for (const scheduleName of _.keys(data.insulinSensitivities)) {
               for (const insulinSensitivity of data.insulinSensitivities[scheduleName]) {
-                const emitData = _.assign({ insulinSensitivity, scheduleName, units: data.units },
-                  commonFields);
+                const emitData = _.assign(
+                  { insulinSensitivity, scheduleName, units: data.units },
+                  commonFields,
+                );
                 emitData.type = 'pumpSettings.insulinSensitivities';
                 this.emit('data', emitData);
               }
@@ -370,38 +376,34 @@ TidepoolDataTools.cache = {
     .uniq()
     .sort()
     .value(),
-  fieldsToStringify: _.mapValues(
-    config, (item) => Object.keys(_.pickBy(item.fields, (n) => n.stringify)),
-  ),
+  fieldsToStringify: _.mapValues(config, (item) => Object.keys(_.pickBy(item.fields, (n) => n.stringify))),
   typeDisplayName: _.mapValues(config, (item, key) => item.displayName || _.chain(key).replace(/([A-Z])/g, ' $1').startCase().value()),
-  fieldHeader: _.mapValues(
-    config, (type) => _.mapValues(type.fields,
-      (item, key) => item.header || _.chain(key).replace(/([A-Z])/g, ' $1').replace('.', ' ').startCase()
-        .value()),
-  ),
-  fieldHidden: _.mapValues(
-    config, (type) => _.mapValues(type.fields, (item) => item.hidden || false),
-  ),
-  fieldWidth: _.mapValues(
-    config, (type) => _.mapValues(type.fields, (item) => item.width || 22),
-  ),
-  cellFormat: _.mapValues(
-    config, (type) => _.mapValues(type.fields, (item) => item.cellFormat || undefined),
-  ),
+  fieldHeader: _.mapValues(config, (type) => _.mapValues(
+    type.fields,
+    (item, key) => item.header || _.chain(key).replace(/([A-Z])/g, ' $1').replace('.', ' ').startCase()
+      .value(),
+  )),
+  fieldHidden: _.mapValues(config, (type) => _.mapValues(type.fields, (item) => item.hidden || false)),
+  fieldWidth: _.mapValues(config, (type) => _.mapValues(type.fields, (item) => item.width || 22)),
+  cellFormat: _.mapValues(config, (type) => _.mapValues(type.fields, (item) => item.cellFormat || undefined)),
   transformData:
-    _.mapValues(config,
-      (item) => (item.transform ? _.template(item.transform, { imports: { moment } }) : undefined)),
+    _.mapValues(
+      config,
+      (item) => (item.transform ? _.template(item.transform, { imports: { moment } }) : undefined),
+    ),
 };
 
 function convert(command) {
   if (!command.inputTidepoolData) command.help();
 
   const inFilename = path.basename(command.inputTidepoolData, '.json');
-  const outFilename = path.join(command.outputDataPath,
+  const outFilename = path.join(
+    command.outputDataPath,
     crypto
       .createHash('sha256')
       .update(`${inFilename}${command.salt}`)
-      .digest('hex'));
+      .digest('hex'),
+  );
 
   const readStream = fs.createReadStream(command.inputTidepoolData);
 
@@ -519,8 +521,11 @@ if (process.argv[1] === __filename) {
       return value;
     }, 'mmol/L')
     .option('--salt <salt>', 'salt used in the hashing algorithm', '')
-    .option('-o, --output-data-path <path>', 'the path where the data is exported',
-      path.join(__dirname, 'example-data', 'export'))
+    .option(
+      '-o, --output-data-path <path>',
+      'the path where the data is exported',
+      path.join(__dirname, 'example-data', 'export'),
+    )
     .option('-f, --output-format <format>', 'the format of file to export to. Can be xlsx, csv, csvs, json or all. Can be specified multiple times', (val, list) => {
       if (list[0] === 'all' && list.length === 1) {
         list.splice(0);

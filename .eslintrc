@@ -19,7 +19,8 @@
     "function-paren-newline": ["warn"],
     "function-call-argument-newline": ["warn"],
     "import/extensions": ["warn"],
-    "import/order": ["warn"]
+    "import/order": ["warn"],
+    "max-len": ["warn", { "code": 120 }]
   },
   "settings": {
     "lodash": 3

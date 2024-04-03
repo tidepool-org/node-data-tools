@@ -72,8 +72,10 @@ async function readInputFile(inputFile, inputData) {
 const wb = new Excel.Workbook();
 
 (async () => {
-  const headingsToFields = _.mapValues(TidepoolDataTools.cache.fieldHeader,
-    (item) => _.invert(item));
+  const headingsToFields = _.mapValues(
+    TidepoolDataTools.cache.fieldHeader,
+    (item) => _.invert(item),
+  );
   const sheetNameToType = _.invert(TidepoolDataTools.cache.typeDisplayName);
 
   const inputData = [];
