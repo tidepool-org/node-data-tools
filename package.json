@@ -8,7 +8,6 @@
   },
   "author": "Lennart Goedhart <lennart@tidepool.org>",
   "license": "BSD-2-Clause",
-  "private": false,
   "main": "index.js",
   "bin": {
     "tidepool-data-tools": "./cli.sh"
