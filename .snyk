@@ -1,0 +1,21 @@
+ignore:
+  SNYK-JS-INFLIGHT-6095116:
+    - '*':
+        reason: >-
+          No remediation available. Production dependency via exceljs, but not 
+          possible for an outside attacker to access this vulnerability. 
+          Development dependency via eslint.
+        expires: 2025-03-31
+  SNYK-JS-MINIMIST-2429795:
+    - '*':
+        reason: >-
+          No remediation available. Production dependency via exceljs, but 
+          minimist is only used via exceljs.WorkbookReader, which is not in use.
+        expires: 2025-03-31
+  SNYK-JS-MINIMIST-559764:
+    - '*':
+        reason: >-
+          No remediation available. Production dependency via exceljs, but 
+          minimist is only used via exceljs.WorkbookReader, which is not in use.
+        expires: 2025-03-31
+patch: {}
