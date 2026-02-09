@@ -71,8 +71,8 @@ export default class TidepoolDataTools {
 
   static addLocalTime(data) {
     if (data.time) {
-      const localTime = new Date(data.time);
-      localTime.setUTCMinutes(localTime.getUTCMinutes() + (data.timezoneOffset || 0));
+      const offset = data.timezoneOffset || 0;
+      const localTime = moment(data.time).utcOffset(offset).format();
       _.assign(data, {
         localTime,
       });
