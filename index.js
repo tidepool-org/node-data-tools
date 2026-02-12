@@ -69,16 +69,6 @@ export default class TidepoolDataTools {
     );
   }
 
-  static addLocalTime(data) {
-    if (data.time) {
-      const offset = data.timezoneOffset || 0;
-      const localTime = moment(data.time).utcOffset(offset).format();
-      _.assign(data, {
-        localTime,
-      });
-    }
-  }
-
   static transformData(data, options = {}) {
     const transformFunction = this.cache.transformData[data.type];
     if (transformFunction) {
@@ -247,8 +237,6 @@ export default class TidepoolDataTools {
 
   static tidepoolProcessor(processorConfig = {}) {
     return es.mapSync((data) => {
-      // Synthesize the 'localTime' field
-      this.addLocalTime(data);
       // Stringify objects configured with { "stringify": true }
       this.stringifyFields(data);
       // Convert BGL data to mg/dL if configured to do so

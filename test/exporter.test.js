@@ -111,8 +111,6 @@ const wb = new Excel.Workbook();
     if (data.time) {
       data.time = moment(data.time).utc().toISOString();
     }
-    // Add the synthesized local time
-    TidepoolDataTools.addLocalTime(data);
   }
 
   wb.eachSheet((worksheet) => {
