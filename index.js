@@ -247,8 +247,9 @@ export default class TidepoolDataTools {
 
   static tidepoolProcessor(processorConfig = {}) {
     return es.mapSync((data) => {
-      // Synthesize the 'localTime' field
-      this.addLocalTime(data);
+      if (!processorConfig.excludeLocalTime) {
+        this.addLocalTime(data);
+      }
       // Stringify objects configured with { "stringify": true }
       this.stringifyFields(data);
       // Convert BGL data to mg/dL if configured to do so
